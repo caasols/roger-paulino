@@ -1,27 +1,27 @@
     <article class="show">
       <header class="show__head">
-        <p class="show__type">{{ typeLabel }}<!-- IF:hasCoArtists --> &middot; {{ coArtistsLabel }}<!-- ENDIF:hasCoArtists --></p>
+        <p class="show__type">{{ typeLabel }}<!-- IF:coArtistsLabel --> &middot; {{ coArtistsLabel }}<!-- ENDIF:coArtistsLabel --></p>
         <h1 class="show__title">{{ title }}</h1>
         <p class="show__meta">{{ place }}</p>
         <p class="show__meta">{{ dateLabel }}</p>
       </header>
 
-      <!-- IF:hasHero -->
+      <!-- IF:heroSrc -->
       <figure class="show__hero">
         <a class="gallery__item" href="{{root}}{{ heroSrc }}"><img src="{{root}}{{ heroSrc }}" alt="{{ heroAlt }}"></a>
       </figure>
-      <!-- ENDIF:hasHero -->
+      <!-- ENDIF:heroSrc -->
       <!-- IF:noHero -->
       <p class="show__placeholder">{{ ui_imagesComing }}</p>
       <!-- ENDIF:noHero -->
 
-      <!-- IF:hasStatement -->
+      <!-- IF:statement -->
       <section class="show__statement prose">
         <!-- LOOP:statement --><p>{{ value }}</p><!-- ENDLOOP:statement -->
       </section>
-      <!-- ENDIF:hasStatement -->
+      <!-- ENDIF:statement -->
 
-      <!-- IF:hasVideo -->
+      <!-- IF:videos -->
       <section class="show__videos">
         <!-- LOOP:videos -->
         <video class="show__video" controls preload="none" poster="{{root}}{{ poster }}">
@@ -29,17 +29,17 @@
         </video>
         <!-- ENDLOOP:videos -->
       </section>
-      <!-- ENDIF:hasVideo -->
+      <!-- ENDIF:videos -->
 
-      <!-- IF:hasGallery -->
+      <!-- IF:gallery -->
       <section class="show__gallery gallery">
         <!-- LOOP:gallery -->
         <a class="gallery__item" href="{{root}}{{ src }}"><img loading="lazy" src="{{root}}{{ thumb }}" alt="{{ alt }}"></a>
         <!-- ENDLOOP:gallery -->
       </section>
-      <!-- ENDIF:hasGallery -->
+      <!-- ENDIF:gallery -->
 
-      <!-- IF:hasWorks -->
+      <!-- IF:works -->
       <section class="show__works">
         <h2 class="section-title">{{ ui_works }}</h2>
         <ol class="works">
@@ -51,20 +51,20 @@
           <!-- ENDLOOP:works -->
         </ol>
       </section>
-      <!-- ENDIF:hasWorks -->
+      <!-- ENDIF:works -->
 
-      <!-- IF:hasCurator -->
+      <!-- IF:curatorParagraphs -->
       <section class="show__curator prose">
         <!-- IF:curatorBy --><p class="show__curator-by">{{ ui_curatedBy }} {{ curatorBy }}</p><!-- ENDIF:curatorBy -->
         <!-- LOOP:curatorParagraphs --><p>{{ value }}</p><!-- ENDLOOP:curatorParagraphs -->
       </section>
-      <!-- ENDIF:hasCurator -->
+      <!-- ENDIF:curatorParagraphs -->
 
-      <!-- IF:hasLinks -->
+      <!-- IF:links -->
       <section class="show__links">
         <!-- LOOP:links --><a class="show__link" href="{{ url }}" target="_blank" rel="noopener">{{ label }}</a><!-- ENDLOOP:links -->
       </section>
-      <!-- ENDIF:hasLinks -->
+      <!-- ENDIF:links -->
 
       <p class="show__back"><a href="{{root}}exhibitions/index.html">&larr; {{ ui_navExhibitions }}</a></p>
     </article>

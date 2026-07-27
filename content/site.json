@@ -1,17 +1,13 @@
 {
   "name": "Roger Paulino",
-  "tagline": "Visual artist",
   "email": "roger.paulino@posteo.net",
   "instagram": "https://www.instagram.com/rogerxpaulino/",
-  "instagramHandle": "@rogerxpaulino",
   "metaDescription": "Roger Paulino is a visual artist working between printmaking and painting, based between Germany and Portugal.",
   "ui": {
     "navHome": "Home",
     "navExhibitions": "Exhibitions",
     "navAbout": "About",
-    "navContact": "Contact",
     "works": "Works",
-    "onView": "On view",
     "imagesComing": "Images coming soon",
     "curatedBy": "Text by",
     "selectedExhibitions": "Selected exhibitions",

@@ -76,14 +76,16 @@ def render(tpl, ctx):
 # --- asset path helpers -----------------------------------------------------
 
 def thumb_for(src):
-    folder, name = src.rsplit("/", 1)
-    return f"{folder}/thumb-{name}"
+    folder, _, name = src.rpartition("/")
+    prefix = f"{folder}/" if folder else ""
+    return f"{prefix}thumb-{name}"
 
 
 def poster_for(src):
-    folder, name = src.rsplit("/", 1)
+    folder, _, name = src.rpartition("/")
+    prefix = f"{folder}/" if folder else ""
     stem = name.rsplit(".", 1)[0]
-    return f"{folder}/{stem}-poster.jpg"
+    return f"{prefix}{stem}-poster.jpg"
 
 
 def sort_key(show):
@@ -117,8 +119,7 @@ def base_ctx(root, page_title, description=""):
         "site_name": SITE["name"],
         "site_email": SITE["email"],
         "site_instagram": SITE["instagram"],
-        "site_instagramHandle": SITE.get("instagramHandle", ""),
-        "year": YEAR,
+        "site_year": YEAR,
     }
     for key, value in SITE.get("ui", {}).items():
         ctx[f"ui_{key}"] = value
@@ -240,41 +241,29 @@ def build_show(show):
         "dateLabel": show.get("dateLabel", ""),
         "typeLabel": TYPE_LABELS.get(show.get("type", ""), ""),
         "coArtistsLabel": "with " + ", ".join(co) if co else "",
-        "hasCoArtists": bool(co),
         "heroSrc": hero["src"] if hero else "",
         "heroAlt": (hero.get("alt") or show["title"]) if hero else "",
-        "hasHero": bool(hero),
         "noHero": not hero,
         "statement": show.get("statement", []),
-        "hasStatement": bool(show.get("statement")),
         "gallery": gallery,
-        "hasGallery": bool(gallery),
         "videos": videos,
-        "hasVideo": bool(videos),
         "works": show.get("works", []),
-        "hasWorks": bool(show.get("works")),
         "curatorBy": curator.get("by", ""),
         "curatorParagraphs": curator.get("paragraphs", []),
-        "hasCurator": bool(curator.get("paragraphs")),
         "links": show.get("links", []),
-        "hasLinks": bool(show.get("links")),
     })
     return write(f"exhibitions/{show['slug']}/index.html", render_page("exhibition.html", ctx))
 
 
-def build_about(shows):
+def build_about():
     about = load_json(CONTENT / "about.json")
     ctx = base_ctx("../", f"About - {SITE['name']}")
     ctx["bio"] = about.get("bio", [])
     ctx["exhibitions"] = about.get("selectedExhibitions", [])
     ctx["education"] = about.get("education", [])
-    ctx["hasEducation"] = bool(about.get("education"))
     ctx["awards"] = about.get("awards", [])
-    ctx["hasAwards"] = bool(about.get("awards"))
     ctx["collections"] = about.get("collections", [])
-    ctx["hasCollections"] = bool(about.get("collections"))
     ctx["press"] = about.get("press", [])
-    ctx["hasPress"] = bool(about.get("press"))
     return write("about/index.html", render_page("about.html", ctx))
 
 
@@ -284,7 +273,7 @@ def build():
         build_home(shows),
         build_exhibitions(shows),
         *[build_show(s) for s in shows],
-        build_about(shows),
+        build_about(),
     ]
     for path in written:
         print(f"wrote {path}")

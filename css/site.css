@@ -222,9 +222,6 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 .cv-year { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .cv-title { font-style: italic; }
 
-/* --- contact --- */
-.contact__line { font-size: 1.1rem; }
-
 /* --- footer --- */
 .site-footer {
   border-top: 1px solid var(--line);
@@ -247,10 +244,6 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 .lightbox__close {
   position: absolute; top: 1rem; right: 1.25rem; background: none; border: none;
   color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
-}
-
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);
 }
 
 /* --- responsive --- */
