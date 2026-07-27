@@ -1,0 +1,70 @@
+    <article class="show">
+      <header class="show__head">
+        <p class="show__type">{{ typeLabel }}<!-- IF:hasCoArtists --> &middot; {{ coArtistsLabel }}<!-- ENDIF:hasCoArtists --></p>
+        <h1 class="show__title">{{ title }}</h1>
+        <p class="show__meta">{{ place }}</p>
+        <p class="show__meta">{{ dateLabel }}</p>
+      </header>
+
+      <!-- IF:hasHero -->
+      <figure class="show__hero">
+        <a class="gallery__item" href="{{root}}{{ heroSrc }}"><img src="{{root}}{{ heroSrc }}" alt="{{ heroAlt }}"></a>
+      </figure>
+      <!-- ENDIF:hasHero -->
+      <!-- IF:noHero -->
+      <p class="show__placeholder">{{ ui_imagesComing }}</p>
+      <!-- ENDIF:noHero -->
+
+      <!-- IF:hasStatement -->
+      <section class="show__statement prose">
+        <!-- LOOP:statement --><p>{{ value }}</p><!-- ENDLOOP:statement -->
+      </section>
+      <!-- ENDIF:hasStatement -->
+
+      <!-- IF:hasVideo -->
+      <section class="show__videos">
+        <!-- LOOP:videos -->
+        <video class="show__video" controls preload="none" poster="{{root}}{{ poster }}">
+          <source src="{{root}}{{ src }}" type="video/mp4">
+        </video>
+        <!-- ENDLOOP:videos -->
+      </section>
+      <!-- ENDIF:hasVideo -->
+
+      <!-- IF:hasGallery -->
+      <section class="show__gallery gallery">
+        <!-- LOOP:gallery -->
+        <a class="gallery__item" href="{{root}}{{ src }}"><img loading="lazy" src="{{root}}{{ thumb }}" alt="{{ alt }}"></a>
+        <!-- ENDLOOP:gallery -->
+      </section>
+      <!-- ENDIF:hasGallery -->
+
+      <!-- IF:hasWorks -->
+      <section class="show__works">
+        <h2 class="section-title">{{ ui_works }}</h2>
+        <ol class="works">
+          <!-- LOOP:works -->
+          <li class="work">
+            <span class="work__title">{{ title }}</span><!-- IF:year -->, {{ year }}<!-- ENDIF:year --><!-- IF:artist --> &middot; {{ artist }}<!-- ENDIF:artist -->
+            <span class="work__medium">{{ medium }}<!-- IF:dimensions -->; {{ dimensions }}<!-- ENDIF:dimensions --></span>
+          </li>
+          <!-- ENDLOOP:works -->
+        </ol>
+      </section>
+      <!-- ENDIF:hasWorks -->
+
+      <!-- IF:hasCurator -->
+      <section class="show__curator prose">
+        <!-- IF:curatorBy --><p class="show__curator-by">{{ ui_curatedBy }} {{ curatorBy }}</p><!-- ENDIF:curatorBy -->
+        <!-- LOOP:curatorParagraphs --><p>{{ value }}</p><!-- ENDLOOP:curatorParagraphs -->
+      </section>
+      <!-- ENDIF:hasCurator -->
+
+      <!-- IF:hasLinks -->
+      <section class="show__links">
+        <!-- LOOP:links --><a class="show__link" href="{{ url }}" target="_blank" rel="noopener">{{ label }}</a><!-- ENDLOOP:links -->
+      </section>
+      <!-- ENDIF:hasLinks -->
+
+      <p class="show__back"><a href="{{root}}exhibitions/index.html">&larr; {{ ui_navExhibitions }}</a></p>
+    </article>

@@ -1,0 +1,32 @@
+{
+  "_readme": "Copy this file to NN-<slug>.json (NN is just for human sorting; real order comes from dateStart). Then run ./optimize.sh and python3 build.py. Files starting with _ are ignored by the builder.",
+  "slug": "my-show-slug",
+  "title": "Exhibition Title",
+  "venue": "Gallery or space name",
+  "city": "City",
+  "dateStart": "2026-01-01",
+  "dateEnd": "2026-02-01",
+  "dateLabel": "1 Jan - 1 Feb 2026",
+  "type": "solo",
+  "_type_hint": "one of: solo | group | duo",
+  "coArtists": [],
+  "statement": [
+    "First paragraph of the artist statement.",
+    "Second paragraph."
+  ],
+  "curatorText": {
+    "by": "Curator Name",
+    "paragraphs": []
+  },
+  "works": [
+    { "artist": "Roger Paulino", "title": "Work title", "medium": "linocut on paper", "dimensions": "50 x 70 cm", "year": "2026" }
+  ],
+  "media": [
+    { "type": "image", "src": "assets/my-show-slug/some-image.jpg", "alt": "Description", "hero": true },
+    { "type": "video", "src": "assets/my-show-slug/some-video.mp4" }
+  ],
+  "_media_hint": "src points at the optimized file under assets/<slug>/. Thumbnails (thumb-*) and video posters (*-poster.jpg) are found automatically. Mark one image hero:true.",
+  "links": [
+    { "label": "Gallery page", "url": "https://example.com" }
+  ]
+}

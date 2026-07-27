@@ -1,0 +1,47 @@
+    <section class="page-head">
+      <h1 class="section-title">{{ ui_navAbout }}</h1>
+    </section>
+
+    <section class="about prose">
+      <!-- LOOP:bio --><p>{{ value }}</p><!-- ENDLOOP:bio -->
+    </section>
+
+    <section class="cv">
+      <h2 class="section-title">{{ ui_selectedExhibitions }}</h2>
+      <ul class="cv-list">
+        <!-- LOOP:exhibitions -->
+        <li class="cv-item">
+          <span class="cv-year">{{ year }}</span>
+          <span class="cv-detail"><span class="cv-title">{{ title }}</span><!-- IF:venue -->, {{ venue }}<!-- ENDIF:venue --><!-- IF:city -->, {{ city }}<!-- ENDIF:city --><!-- IF:typeLabel --> ({{ typeLabel }})<!-- ENDIF:typeLabel --></span>
+        </li>
+        <!-- ENDLOOP:exhibitions -->
+      </ul>
+
+      <!-- IF:hasEducation -->
+      <h2 class="section-title">{{ ui_education }}</h2>
+      <ul class="cv-list">
+        <!-- LOOP:education --><li class="cv-item"><span class="cv-year">{{ year }}</span><span class="cv-detail">{{ detail }}</span></li><!-- ENDLOOP:education -->
+      </ul>
+      <!-- ENDIF:hasEducation -->
+
+      <!-- IF:hasAwards -->
+      <h2 class="section-title">{{ ui_awards }}</h2>
+      <ul class="cv-list">
+        <!-- LOOP:awards --><li class="cv-item"><span class="cv-year">{{ year }}</span><span class="cv-detail">{{ detail }}</span></li><!-- ENDLOOP:awards -->
+      </ul>
+      <!-- ENDIF:hasAwards -->
+
+      <!-- IF:hasCollections -->
+      <h2 class="section-title">{{ ui_collections }}</h2>
+      <ul class="cv-list">
+        <!-- LOOP:collections --><li class="cv-item"><span class="cv-year">{{ year }}</span><span class="cv-detail">{{ detail }}</span></li><!-- ENDLOOP:collections -->
+      </ul>
+      <!-- ENDIF:hasCollections -->
+
+      <!-- IF:hasPress -->
+      <h2 class="section-title">{{ ui_press }}</h2>
+      <ul class="cv-list">
+        <!-- LOOP:press --><li class="cv-item"><span class="cv-year"></span><span class="cv-detail"><a href="{{ url }}" target="_blank" rel="noopener">{{ label }}</a></span></li><!-- ENDLOOP:press -->
+      </ul>
+      <!-- ENDIF:hasPress -->
+    </section>

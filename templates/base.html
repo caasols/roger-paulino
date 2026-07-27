@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ meta_description }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ meta_description }}">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="{{root}}css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{root}}index.html">{{ site_name }}</a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+    <nav class="site-nav">
+      <a href="{{root}}index.html">{{ ui_navHome }}</a>
+      <a href="{{root}}about/index.html">{{ ui_navAbout }}</a>
+      <a href="{{root}}exhibitions/index.html">{{ ui_navExhibitions }}</a>
+      <span class="nav-icons">
+        <a class="icon-link" href="{{ site_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="icon-link" href="mailto:{{ site_email }}" aria-label="Email">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
+        </a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+{{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <p>{{ site_name }} &middot; &copy; {{ year }}</p>
+    <span class="footer-icons">
+      <a class="icon-link" href="{{ site_instagram }}" target="_blank" rel="me noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="icon-link" href="mailto:{{ site_email }}" aria-label="Email">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
+      </a>
+    </span>
+  </footer>
+
+  <script src="{{root}}js/site.js"></script>
+</body>
+</html>

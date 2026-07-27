@@ -1,0 +1,19 @@
+    <section class="page-head">
+      <h1 class="section-title">{{ ui_navExhibitions }}</h1>
+    </section>
+
+    <ul class="card-grid card-grid--index">
+      <!-- LOOP:shows -->
+      <li class="card">
+        <a class="card__link" href="{{root}}{{ url }}">
+          <!-- IF:thumb --><span class="card__media"><img loading="lazy" src="{{root}}{{ thumb }}" alt="{{ title }}"></span><!-- ENDIF:thumb -->
+          <!-- IF:noThumb --><span class="card__media card__media--empty">{{ ui_imagesComing }}</span><!-- ENDIF:noThumb -->
+          <span class="card__body">
+            <span class="card__title">{{ title }}</span>
+            <span class="card__meta">{{ place }}</span>
+            <span class="card__meta">{{ dateLabel }} &middot; {{ typeLabel }}</span>
+          </span>
+        </a>
+      </li>
+      <!-- ENDLOOP:shows -->
+    </ul>

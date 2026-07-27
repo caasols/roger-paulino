@@ -1,0 +1,61 @@
+{
+  "bio": [
+    "Roger Paulino was born in Pretoria, South Africa, in 1986, and lives and works in Leipzig, Germany. As the child of immigrants growing up in the fractured society of apartheid, he was introduced to drawing at an early age by watching the Khoi-San people paint African landscapes onto animal hides from the savanna. Due to the prevailing violence, his family relocated to the island of Madeira, where he experienced a simple island lifestyle and traditional farming methods, and came into contact with the skate subculture that served as his initial gateway to art.",
+    "His work draws from diverse sources and manifests in a wide variety of forms, exploring life's mysteries and the small, chance occurrences that shape our perception of reality. For the last decade he has dedicated himself to mastering the techniques of printing, one of the reasons he moved to Germany, the land of the Gutenberg press and the Northern Renaissance. He does not call his prints prints, but rather paintings; they live in a limbo between the two, printed once, layer over layer, until the end is reached."
+  ],
+  "selectedExhibitions": [
+    { "year": "2026", "title": "OFF FIELD", "venue": "", "city": "Berlin", "typeLabel": "Group" },
+    { "year": "2026", "title": "Scrolls", "venue": "Buraco", "city": "Lisboa", "typeLabel": "Duo" },
+    { "year": "2026", "title": "Welt am Draht", "venue": "Rosalux", "city": "Berlin", "typeLabel": "Group" },
+    { "year": "2025", "title": "Canto da Teia", "venue": "andar de baixo", "city": "Lisboa", "typeLabel": "Group" },
+    { "year": "2025", "title": "The World Smiles at Us", "venue": "Galeria 111", "city": "Lisboa", "typeLabel": "Solo" },
+    { "year": "2024", "title": "BLIND TASTE", "venue": "Arbag", "city": "Lisboa", "typeLabel": "Group" },
+    { "year": "2023", "title": "Cabbage and the Plan of Things", "venue": "Ar.Co", "city": "Lisboa", "typeLabel": "Solo" },
+    { "year": "2023", "title": "Ex-votos", "venue": "Brotéria", "city": "Lisboa", "typeLabel": "Group" },
+    { "year": "2022", "title": "Please Stop!", "venue": "C. Rockefeller Center for Contemporary Art", "city": "Dresden", "typeLabel": "Group" },
+    { "year": "2022", "title": "Coleção Norlinda e José Lima", "venue": "MACE Museu de Arte Contemporânea", "city": "Elvas", "typeLabel": "Group" },
+    { "year": "2022", "title": "Jahresausstellung", "venue": "Burg Giebichenstein Kunsthochschule", "city": "Halle", "typeLabel": "Group" },
+    { "year": "2021", "title": "Les amis du cadavre exquis", "venue": "Duplex", "city": "Lisboa", "typeLabel": "Group" },
+    { "year": "2021", "title": "Sobressalto", "venue": "Centro de Artes", "city": "Águeda", "typeLabel": "Group" },
+    { "year": "2021", "title": "Ecstatic Visions", "venue": "Essenheim Associação Cultural", "city": "Essenheim", "typeLabel": "Group" },
+    { "year": "2020", "title": "Studienstiftung des deutschen Volkes, selected finalists", "venue": "Faculty of Arts", "city": "Hamburg", "typeLabel": "Group" },
+    { "year": "2020", "title": "End-of-year exhibition, Grafik Class", "venue": "Burg Giebichenstein", "city": "Halle", "typeLabel": "Group" },
+    { "year": "2019", "title": "Turbilhão de Frescura", "venue": "Centro de Artes Visuais", "city": "Coimbra", "typeLabel": "Solo" },
+    { "year": "2019", "title": "Ilhéstico", "venue": "Porta 33, Mercado dos Lavradores", "city": "Funchal, Madeira", "typeLabel": "Group" },
+    { "year": "2019", "title": "Vernissage", "venue": "Edifício da Antiga Psiquiatria", "city": "Halle", "typeLabel": "Group" },
+    { "year": "2018", "title": "Melted", "venue": "Galeria Burg2", "city": "Halle", "typeLabel": "Group" },
+    { "year": "2018", "title": "27, Casa Branca", "venue": "Burg Giebichenstein School of Art", "city": "Halle", "typeLabel": "Group" },
+    { "year": "2017", "title": "Der Schrank (with Niklas Müller)", "venue": "C. Rockefeller Center for Contemporary Art", "city": "Dresden", "typeLabel": "Duo" },
+    { "year": "2016", "title": "FlatLand", "venue": "Espaço AZ", "city": "Lisboa", "typeLabel": "Solo" },
+    { "year": "2016", "title": "Rocks and Clouds (with Hugo Bernardo)", "venue": "Galeria Sá da Costa", "city": "Lisboa", "typeLabel": "Duo" },
+    { "year": "2016", "title": "Indágora", "venue": "Casa da Madeira do Norte", "city": "Porto", "typeLabel": "Group" },
+    { "year": "2015", "title": "Tricicle", "venue": "Galeria Manteigaria", "city": "Lisboa", "typeLabel": "Group" },
+    { "year": "2015", "title": "AR.CO Bolseiros e Finalistas", "venue": "Museu da Cidade", "city": "Lisboa", "typeLabel": "Group" },
+    { "year": "2013-2014", "title": "AR.CO Exposição de Outono", "venue": "", "city": "Almada", "typeLabel": "Group" }
+  ],
+  "education": [
+    { "year": "2018-2025", "detail": "Engraving, Faculty of Arts, Burg Giebichenstein Halle an der Saale, Germany" },
+    { "year": "2013-2014", "detail": "Individual Project, Ar.Co Centro de Arte e Comunicação Visual, Lisboa" },
+    { "year": "2012-2013", "detail": "Visual Arts Advanced Course, Ar.Co, Lisboa" },
+    { "year": "2010-2012", "detail": "Painting and Drawing Program, Ar.Co, Lisboa" }
+  ],
+  "awards": [
+    { "year": "2020-2025", "detail": "Studienstiftung des deutschen Volkes (German Academic Scholarship Foundation)" },
+    { "year": "2010-2012", "detail": "PORTA 33 and Ar.Co partnership scholarship" }
+  ],
+  "collections": [
+    { "year": "", "detail": "Fundação Ilídio Pinho" },
+    { "year": "", "detail": "Fundação Norlinda e José Lima" },
+    { "year": "", "detail": "Grupo RAR" },
+    { "year": "", "detail": "Porta 33" }
+  ],
+  "press": [
+    { "label": "Porta 33, Madeira (Ilhéstico)", "url": "https://www.porta33.com/porta33_madeira/exposicoes/content_exposicoes/Ilhestico/content_obras/roger_paulino/roger_paulino.html" },
+    { "label": "RAR - seen by Roger Paulino", "url": "https://www.rar.com/en/rar-seen-by/roger-paulino/" },
+    { "label": "Abril Vermelho, Coimbra", "url": "https://50anos25abril.pt/agenda/abril-vermelho-coimbra/" },
+    { "label": "Meer - The World Smiles at Us", "url": "https://www.meer.com/en/101103-the-world-smiles-at-us" },
+    { "label": "Burg Halle - Burg Voyage, Brussels", "url": "https://www.burg-halle.de/artikel/a/burg-voyage-burg-studierende-zeigen-arbeiten-inbruessel/" },
+    { "label": "ARCO abecedário", "url": "https://www.arcoabecedario.pt/entries/70?locale=en" },
+    { "label": "Galeria 111 - The World Smiles at Us", "url": "https://111.pt/exposicoes/the-world-smiles-at-us/" }
+  ]
+}

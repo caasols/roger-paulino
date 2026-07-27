@@ -1,0 +1,32 @@
+    <section class="home-intro">
+      <div class="home-intro__text prose">
+        <h1 class="brand-heading">{{ site_name }}</h1>
+        <!-- LOOP:intro --><p>{{ value }}</p><!-- ENDLOOP:intro -->
+      </div>
+      <!-- IF:hero -->
+      <figure class="home-intro__image">
+        <span class="home-intro__image-box">
+          <img src="{{root}}{{ hero }}" alt="{{ heroAlt }}">
+        </span>
+      </figure>
+      <!-- ENDIF:hero -->
+    </section>
+
+    <section class="home-recent">
+      <h2 class="section-title">{{ ui_navExhibitions }}</h2>
+      <ul class="card-grid">
+        <!-- LOOP:recent -->
+        <li class="card">
+          <a class="card__link" href="{{root}}{{ url }}">
+            <!-- IF:thumb --><span class="card__media"><img loading="lazy" src="{{root}}{{ thumb }}" alt="{{ title }}"></span><!-- ENDIF:thumb -->
+            <!-- IF:noThumb --><span class="card__media card__media--empty">{{ ui_imagesComing }}</span><!-- ENDIF:noThumb -->
+            <span class="card__body">
+              <span class="card__title">{{ title }}</span>
+              <span class="card__meta">{{ place }}</span>
+              <span class="card__meta">{{ dateLabel }}</span>
+            </span>
+          </a>
+        </li>
+        <!-- ENDLOOP:recent -->
+      </ul>
+    </section>
