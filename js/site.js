@@ -15,21 +15,33 @@
   // Lightbox for any link that points straight at an image
   var box = document.createElement("div");
   box.className = "lightbox";
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-modal", "true");
+  box.setAttribute("aria-label", "Image viewer");
   box.innerHTML =
-    '<button class="lightbox__close" aria-label="Close">&times;</button><img alt="">';
+    '<button class="lightbox__close" type="button" aria-label="Close">&times;</button><img alt="">';
   document.body.appendChild(box);
   var boxImg = box.querySelector("img");
+  var closeBtn = box.querySelector(".lightbox__close");
+  var lastFocused = null;
 
   function open(src, alt) {
+    lastFocused = document.activeElement;
     boxImg.src = src;
     boxImg.alt = alt || "";
     box.classList.add("is-open");
     document.body.style.overflow = "hidden";
+    closeBtn.focus();
   }
   function close() {
     box.classList.remove("is-open");
     boxImg.src = "";
     document.body.style.overflow = "";
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+    lastFocused = null;
+  }
+  function isOpen() {
+    return box.classList.contains("is-open");
   }
 
   document.addEventListener("click", function (e) {
@@ -44,7 +56,19 @@
   });
 
   box.addEventListener("click", close);
+  closeBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    close();
+  });
+
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && box.classList.contains("is-open")) close();
+    if (!isOpen()) return;
+    if (e.key === "Escape") {
+      close();
+    } else if (e.key === "Tab") {
+      // only the close button is focusable, so keep focus trapped on it
+      e.preventDefault();
+      closeBtn.focus();
+    }
   });
 })();

@@ -3,6 +3,7 @@
 Run from the repo root:  python3 -m unittest discover -s tests
 Standard library only, matching build.py.
 """
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -64,8 +65,8 @@ class TestYearCollisionRegression(unittest.TestCase):
     def test_footer_year_does_not_leak_into_loop_items(self):
         # base_ctx exposes the footer year as site_year (not year), so a loop
         # item without its own `year` must render blank, not the site year.
-        self.assertNotIn("year", build.base_ctx("", "t"))
-        self.assertIn("site_year", build.base_ctx("", "t"))
+        self.assertNotIn("year", build.base_ctx("", "", "t"))
+        self.assertIn("site_year", build.base_ctx("", "", "t"))
         tpl = "<!-- LOOP:works -->{{ title }}<!-- IF:year -->({{ year }})<!-- ENDIF:year -->|<!-- ENDLOOP:works -->"
         ctx = {"site_year": "2026", "works": [{"title": "A"}, {"title": "B", "year": "2025"}]}
         out = build.render(tpl, ctx)
@@ -129,6 +130,53 @@ class TestPlaceLabel(unittest.TestCase):
 
     def test_no_fields(self):
         self.assertEqual(build.place_label({}), "")
+
+
+class TestSeoHelpers(unittest.TestCase):
+    def test_abs_url_root_and_path(self):
+        self.assertEqual(build.abs_url(), build.SITE_URL + "/")
+        self.assertEqual(build.abs_url("about/"), build.SITE_URL + "/about/")
+
+    def test_truncate_short_unchanged(self):
+        self.assertEqual(build.truncate("hello world", 100), "hello world")
+
+    def test_truncate_long_adds_ellipsis_within_limit(self):
+        out = build.truncate("word " * 60, 50)
+        self.assertLessEqual(len(out), 51)
+        self.assertTrue(out.endswith("…"))
+
+    def test_show_description_composes(self):
+        show = {"title": "X", "type": "solo", "venue": "Gal", "city": "Lisboa", "dateLabel": "2025"}
+        self.assertEqual(build.show_description(show),
+                         "X, a solo exhibition at Gal, Lisboa (2025).")
+
+    def test_jsonld_is_valid_json_and_escapes_closing_tag(self):
+        s = build.jsonld_script({"@type": "Person", "name": "A</script>B"})
+        prefix = '<script type="application/ld+json">'
+        inner = s[len(prefix):-len("</script>")]
+        self.assertNotIn("</", inner)  # cannot close the script tag early
+        self.assertEqual(json.loads(inner.replace("<\\/", "</"))["name"], "A</script>B")
+
+    def test_person_ld(self):
+        obj = build.person_ld()
+        self.assertEqual(obj["@type"], "Person")
+        self.assertEqual(obj["name"], "Roger Paulino")
+
+    def test_exhibition_ld_omits_missing_fields(self):
+        obj = build.exhibition_ld({"slug": "x", "title": "X"}, None)
+        self.assertNotIn("startDate", obj)
+        self.assertNotIn("image", obj)
+        self.assertEqual(obj["@type"], "ExhibitionEvent")
+
+    def test_sitemap_and_robots_and_llms(self):
+        shows = [{"slug": "foo", "title": "Foo", "dateStart": "2025", "venue": "V", "city": "C", "dateLabel": "2025"}]
+        xml = build.build_sitemap(shows)
+        self.assertIn(build.abs_url("exhibitions/foo/"), xml)
+        self.assertIn("urlset", xml)
+        self.assertIn("Sitemap:", build.build_robots())
+        txt = build.build_llms(shows)
+        self.assertIn("Foo", txt)
+        self.assertIn(build.abs_url("exhibitions/foo/"), txt)
 
 
 if __name__ == "__main__":
