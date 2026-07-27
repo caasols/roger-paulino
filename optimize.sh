@@ -14,6 +14,10 @@ SLUG="${2:?slug required}"
 OUT="assets/$SLUG"
 mkdir -p "$OUT"
 
+# Force sRGB on every image so a CMYK source (which renders black in social
+# share cards and non-color-managed browsers) can never pass through.
+SRGB_PROFILE="/System/Library/ColorSync/Profiles/sRGB Profile.icc"
+
 shopt -s nullglob nocaseglob
 
 slugify() {
@@ -39,8 +43,8 @@ for f in "$SRC"/*.jpg "$SRC"/*.jpeg "$SRC"/*.png "$SRC"/*.tif "$SRC"/*.tiff; do
   name="$(slugify "$(basename "${f%.*}")")"
   [ -n "$name" ] || { echo "skip (name slugified to empty): $f" >&2; continue; }
   reserve_name "$name"; name="$RESERVED"
-  sips -s format jpeg -s formatOptions 80 -Z 2000 "$f" --out "$OUT/$name.jpg" >/dev/null
-  sips -s format jpeg -s formatOptions 72 -Z 800  "$f" --out "$OUT/thumb-$name.jpg" >/dev/null
+  sips -s format jpeg -s formatOptions 80 -Z 2000 --matchTo "$SRGB_PROFILE" "$f" --out "$OUT/$name.jpg" >/dev/null
+  sips -s format jpeg -s formatOptions 72 -Z 800  --matchTo "$SRGB_PROFILE" "$f" --out "$OUT/thumb-$name.jpg" >/dev/null
   echo "img  $OUT/$name.jpg"
 done
 
