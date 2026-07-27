@@ -164,7 +164,11 @@ def person_ld():
 
 def exhibition_ld(show, image):
     place = {"@type": "Place", "name": show.get("venue") or show.get("city") or SITE["name"]}
-    if show.get("city"):
+    if show.get("address"):
+        place["address"] = {"@type": "PostalAddress", "streetAddress": show["address"]}
+        if show.get("city"):
+            place["address"]["addressLocality"] = show["city"]
+    elif show.get("city"):
         place["address"] = show["city"]
     obj = {
         "@context": "https://schema.org",
@@ -347,6 +351,7 @@ def build_show(show):
     ctx.update({
         "title": show["title"],
         "place": place_label(show),
+        "address": show.get("address", ""),
         "dateLabel": show.get("dateLabel", ""),
         "typeLabel": TYPE_LABELS.get(show.get("type", ""), ""),
         "coArtistsLabel": "with " + ", ".join(co) if co else "",

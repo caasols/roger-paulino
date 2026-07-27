@@ -168,6 +168,14 @@ class TestSeoHelpers(unittest.TestCase):
         self.assertNotIn("image", obj)
         self.assertEqual(obj["@type"], "ExhibitionEvent")
 
+    def test_exhibition_ld_postal_address_when_present(self):
+        obj = build.exhibition_ld(
+            {"slug": "x", "title": "X", "address": "Schlegelstr. 6, 10115 Berlin-Mitte", "city": "Berlin"}, None)
+        addr = obj["location"]["address"]
+        self.assertEqual(addr["@type"], "PostalAddress")
+        self.assertEqual(addr["streetAddress"], "Schlegelstr. 6, 10115 Berlin-Mitte")
+        self.assertEqual(addr["addressLocality"], "Berlin")
+
     def test_sitemap_and_robots_and_llms(self):
         shows = [{"slug": "foo", "title": "Foo", "dateStart": "2025", "venue": "V", "city": "C", "dateLabel": "2025"}]
         xml = build.build_sitemap(shows)
