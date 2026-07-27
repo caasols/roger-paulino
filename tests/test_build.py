@@ -179,5 +179,31 @@ class TestSeoHelpers(unittest.TestCase):
         self.assertIn(build.abs_url("exhibitions/foo/"), txt)
 
 
+class TestPersonEntity(unittest.TestCase):
+    def test_metadescription_says_leipzig_not_portugal(self):
+        md = build.SITE["metaDescription"]
+        self.assertNotIn("between Germany and Portugal", md)
+        self.assertIn("Leipzig", md)
+
+    def test_person_ld_has_grounding_facts(self):
+        obj = build.person_ld()
+        self.assertEqual(obj["@type"], "Person")
+        self.assertEqual(obj["birthDate"], "1986")
+        self.assertEqual(obj["birthPlace"]["name"], "Pretoria, South Africa")
+        self.assertEqual(obj["homeLocation"]["name"], "Leipzig, Germany")
+        self.assertEqual(obj["workLocation"]["name"], "Leipzig, Germany")
+        self.assertIn("Printmaking", obj["knowsAbout"])
+        self.assertTrue(all(a["@type"] == "EducationalOrganization" for a in obj["alumniOf"]))
+        self.assertIn("Studienstiftung", obj["award"])
+
+    def test_person_ld_sameas_includes_instagram_and_press(self):
+        obj = build.person_ld()
+        self.assertIn(build.SITE["instagram"], obj["sameAs"])
+        self.assertGreaterEqual(len(obj["sameAs"]), 4)
+
+    def test_person_ld_omits_unconfirmed_nationality(self):
+        self.assertNotIn("nationality", build.person_ld())
+
+
 if __name__ == "__main__":
     unittest.main()

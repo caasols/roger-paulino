@@ -136,15 +136,30 @@ def jsonld_script(obj):
 
 
 def person_ld():
-    return {
+    p = SITE.get("person", {})
+    obj = {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": SITE["name"],
         "url": abs_url(),
         "jobTitle": SITE.get("role", "Visual artist"),
-        "sameAs": [SITE["instagram"]],
         "description": SITE.get("metaDescription", ""),
+        "sameAs": [SITE["instagram"]] + p.get("sameAs", []),
     }
+    if p.get("birthDate"):
+        obj["birthDate"] = p["birthDate"]
+    if p.get("birthPlace"):
+        obj["birthPlace"] = {"@type": "Place", "name": p["birthPlace"]}
+    if p.get("homeLocation"):
+        obj["homeLocation"] = {"@type": "Place", "name": p["homeLocation"]}
+        obj["workLocation"] = {"@type": "Place", "name": p["homeLocation"]}
+    if p.get("knowsAbout"):
+        obj["knowsAbout"] = p["knowsAbout"]
+    if p.get("alumniOf"):
+        obj["alumniOf"] = [{"@type": "EducationalOrganization", "name": a} for a in p["alumniOf"]]
+    if p.get("award"):
+        obj["award"] = p["award"]
+    return obj
 
 
 def exhibition_ld(show, image):

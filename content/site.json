@@ -4,7 +4,23 @@
   "siteUrl": "https://caasols.github.io/roger-paulino",
   "email": "roger.paulino@posteo.net",
   "instagram": "https://www.instagram.com/rogerxpaulino/",
-  "metaDescription": "Roger Paulino is a visual artist working between printmaking and painting, based between Germany and Portugal.",
+  "metaDescription": "Roger Paulino is a visual artist working between printmaking and painting. Born in Pretoria in 1986, he lives and works in Leipzig, Germany.",
+  "person": {
+    "birthDate": "1986",
+    "birthPlace": "Pretoria, South Africa",
+    "homeLocation": "Leipzig, Germany",
+    "knowsAbout": ["Printmaking", "Linocut", "Painting", "Engraving", "Contemporary art"],
+    "alumniOf": [
+      "Burg Giebichenstein Kunsthochschule Halle",
+      "Ar.Co Centro de Arte e Comunicação Visual, Lisboa"
+    ],
+    "award": "Studienstiftung des deutschen Volkes (German Academic Scholarship Foundation)",
+    "sameAs": [
+      "https://www.porta33.com/porta33_madeira/exposicoes/content_exposicoes/Ilhestico/content_obras/roger_paulino/roger_paulino.html",
+      "https://www.rar.com/en/rar-seen-by/roger-paulino/",
+      "https://111.pt/exposicoes/the-world-smiles-at-us/"
+    ]
+  },
   "ui": {
     "navHome": "Home",
     "navExhibitions": "Exhibitions",
