@@ -12,23 +12,51 @@
     });
   }
 
-  // Lightbox for any link that points straight at an image
+  // Lightbox with prev/next navigation across the page's gallery images
+  var IMG_HREF = /\.(jpe?g|png|webp|gif)$/i;
+  var links = [];       // the set of gallery links being browsed
+  var index = -1;       // current position in `links`
+
   var box = document.createElement("div");
   box.className = "lightbox";
   box.setAttribute("role", "dialog");
   box.setAttribute("aria-modal", "true");
   box.setAttribute("aria-label", "Image viewer");
   box.innerHTML =
-    '<button class="lightbox__close" type="button" aria-label="Close">&times;</button><img alt="">';
+    '<button class="lightbox__nav lightbox__prev" type="button" aria-label="Previous image">&#8249;</button>' +
+    '<img alt="">' +
+    '<button class="lightbox__nav lightbox__next" type="button" aria-label="Next image">&#8250;</button>' +
+    '<button class="lightbox__close" type="button" aria-label="Close">&times;</button>';
   document.body.appendChild(box);
   var boxImg = box.querySelector("img");
   var closeBtn = box.querySelector(".lightbox__close");
+  var prevBtn = box.querySelector(".lightbox__prev");
+  var nextBtn = box.querySelector(".lightbox__next");
   var lastFocused = null;
 
-  function open(src, alt) {
+  function galleryImageLinks() {
+    return Array.prototype.filter.call(
+      document.querySelectorAll("a.gallery__item"),
+      function (a) { return IMG_HREF.test(a.getAttribute("href") || ""); }
+    );
+  }
+
+  function showAt(i) {
+    if (!links.length) return;
+    index = (i + links.length) % links.length;   // wrap around
+    var link = links[index];
+    var img = link.querySelector("img");
+    boxImg.src = link.getAttribute("href");
+    boxImg.alt = img ? img.alt : "";
+    var multi = links.length > 1;
+    prevBtn.hidden = !multi;
+    nextBtn.hidden = !multi;
+  }
+
+  function open(link) {
+    links = galleryImageLinks();
     lastFocused = document.activeElement;
-    boxImg.src = src;
-    boxImg.alt = alt || "";
+    showAt(links.indexOf(link));
     box.classList.add("is-open");
     document.body.style.overflow = "hidden";
     closeBtn.focus();
@@ -40,35 +68,38 @@
     if (lastFocused && lastFocused.focus) lastFocused.focus();
     lastFocused = null;
   }
-  function isOpen() {
-    return box.classList.contains("is-open");
-  }
+  function isOpen() { return box.classList.contains("is-open"); }
 
   document.addEventListener("click", function (e) {
     var link = e.target.closest ? e.target.closest("a.gallery__item") : null;
     if (!link) return;
-    var href = link.getAttribute("href") || "";
-    if (/\.(jpe?g|png|webp|gif)$/i.test(href)) {
+    if (IMG_HREF.test(link.getAttribute("href") || "")) {
       e.preventDefault();
-      var img = link.querySelector("img");
-      open(href, img ? img.alt : "");
+      open(link);
     }
   });
 
+  // background click closes; image/controls do not
   box.addEventListener("click", close);
-  closeBtn.addEventListener("click", function (e) {
-    e.stopPropagation();
-    close();
-  });
+  boxImg.addEventListener("click", function (e) { e.stopPropagation(); });
+  closeBtn.addEventListener("click", function (e) { e.stopPropagation(); close(); });
+  prevBtn.addEventListener("click", function (e) { e.stopPropagation(); showAt(index - 1); });
+  nextBtn.addEventListener("click", function (e) { e.stopPropagation(); showAt(index + 1); });
 
   document.addEventListener("keydown", function (e) {
     if (!isOpen()) return;
     if (e.key === "Escape") {
       close();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault(); showAt(index + 1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault(); showAt(index - 1);
     } else if (e.key === "Tab") {
-      // only the close button is focusable, so keep focus trapped on it
-      e.preventDefault();
-      closeBtn.focus();
+      e.preventDefault();  // trap focus among the visible controls
+      var controls = [prevBtn, nextBtn, closeBtn].filter(function (b) { return !b.hidden; });
+      var at = controls.indexOf(document.activeElement);
+      var dir = e.shiftKey ? -1 : 1;
+      controls[(at + dir + controls.length) % controls.length].focus();
     }
   });
 })();
