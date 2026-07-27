@@ -87,6 +87,23 @@ class TestSortKey(unittest.TestCase):
         self.assertEqual(ordered, ["2026-07-10", "2026-05-23", "2026-02",
                                    "2025-11-15", "2025-11-08", "2023-06-01"])
 
+    def test_year_range_uses_start_year_not_a_giant_month(self):
+        # "2013-2014" is a range starting in 2013, so it must sort BELOW a real
+        # dated show in the same year, not above it.
+        shows = [{"dateStart": "2013-2014"}, {"dateStart": "2013-06-01"}]
+        ordered = [s["dateStart"] for s in sorted(shows, key=build.sort_key, reverse=True)]
+        self.assertEqual(ordered, ["2013-06-01", "2013-2014"])
+
+    def test_year_only_sorts_below_month_dated_show_same_year(self):
+        shows = [{"dateStart": "2024"}, {"dateStart": "2024-03"}]
+        ordered = [s["dateStart"] for s in sorted(shows, key=build.sort_key, reverse=True)]
+        self.assertEqual(ordered, ["2024-03", "2024"])
+
+    def test_missing_datestart_sorts_last(self):
+        shows = [{"dateStart": "2020-01-01"}, {"slug": "x"}]
+        ordered = sorted(shows, key=build.sort_key, reverse=True)
+        self.assertEqual(ordered[0]["dateStart"], "2020-01-01")
+
 
 class TestPathHelpers(unittest.TestCase):
     def test_thumb_for_with_folder(self):

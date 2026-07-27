@@ -89,10 +89,22 @@ def poster_for(src):
 
 
 def sort_key(show):
-    """Sort by dateStart descending. Accepts YYYY, YYYY-MM, YYYY-MM-DD."""
-    parts = str(show.get("dateStart", "0000")).split("-")
-    parts += ["01"] * (3 - len(parts))
-    return "-".join(p.zfill(2) if i else p.zfill(4) for i, p in enumerate(parts))
+    """Sort key for `dateStart`, newest-first when used with reverse=True.
+
+    Accepts YYYY, YYYY-MM, YYYY-MM-DD, and a YYYY-YYYY range (which sorts by its
+    start year). Unknown month/day default to 0, so a partial date sorts just
+    below a fully dated show in the same period. Returns an (int, int, int)
+    tuple, so comparison never depends on string zero-padding.
+    """
+    parts = str(show.get("dateStart", "0")).split("-")
+    year = int(parts[0]) if parts[0].isdigit() else 0
+    month = day = 0
+    # a 4-digit second token is a range end-year, not a month, so ignore it
+    if len(parts) >= 2 and parts[1].isdigit() and len(parts[1]) <= 2:
+        month = int(parts[1])
+        if len(parts) >= 3 and parts[2].isdigit():
+            day = int(parts[2])
+    return (year, month, day)
 
 
 # --- content loading --------------------------------------------------------
