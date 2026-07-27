@@ -303,7 +303,8 @@ def write(rel_path, content):
 
 def build_home(shows):
     home = load_json(CONTENT / "home.json")
-    ctx = base_ctx("", "", SITE["name"], SITE.get("metaDescription", ""),
+    ctx = base_ctx("", "", f"{SITE['name']}, Visual Artist (Printmaking and Painting)",
+                   SITE.get("metaDescription", ""),
                    jsonld=jsonld_script(person_ld()))
     ctx["intro"] = home.get("intro", [])
     ctx["hero"] = home.get("hero", "")
@@ -330,10 +331,13 @@ def build_show(show):
                    og_image=hero_abs, og_type="article",
                    jsonld=jsonld_script(exhibition_ld(show, hero_abs)))
     gallery = []
+    n = 0
     for m in imgs:
         if hero and m is hero:
             continue
-        gallery.append({"src": m["src"], "thumb": thumb_for(m["src"]), "alt": m.get("alt") or show["title"]})
+        n += 1
+        gallery.append({"src": m["src"], "thumb": thumb_for(m["src"]),
+                        "alt": m.get("alt") or f"{show['title']}, image {n}"})
     videos = []
     for m in media:
         if m.get("type") == "video":
@@ -363,7 +367,7 @@ def build_show(show):
 def build_about():
     about = load_json(CONTENT / "about.json")
     bio = about.get("bio", [])
-    desc = truncate(bio[0]) if bio else SITE.get("metaDescription", "")
+    desc = about.get("metaDescription") or (truncate(bio[0]) if bio else SITE.get("metaDescription", ""))
     ctx = base_ctx("../", "about/", f"About - {SITE['name']}", desc,
                    jsonld=jsonld_script(person_ld()))
     ctx["bio"] = bio
@@ -391,7 +395,12 @@ def build_robots():
 
 
 def build_llms(shows):
-    lines = [f"# {SITE['name']}", "", SITE.get("metaDescription", ""), "", "## Exhibitions"]
+    about = load_json(CONTENT / "about.json")
+    bio = about.get("bio", [])
+    lines = [f"# {SITE['name']}", "", SITE.get("metaDescription", ""), ""]
+    if bio:
+        lines += ["## About", "", *bio, ""]
+    lines += ["## Exhibitions"]
     for s in shows:
         url = abs_url(f"exhibitions/{s['slug']}/")
         meta = ", ".join(x for x in [place_label(s), s.get("dateLabel", "")] if x)

@@ -178,6 +178,12 @@ class TestSeoHelpers(unittest.TestCase):
         self.assertIn("Foo", txt)
         self.assertIn(build.abs_url("exhibitions/foo/"), txt)
 
+    def test_llms_has_about_block_before_exhibitions(self):
+        txt = build.build_llms([])
+        self.assertIn("## About", txt)
+        self.assertLess(txt.index("## About"), txt.index("## Exhibitions"))
+        self.assertIn("Leipzig", txt)  # bio grounding fact present
+
 
 class TestPersonEntity(unittest.TestCase):
     def test_metadescription_says_leipzig_not_portugal(self):
