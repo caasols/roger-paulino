@@ -432,17 +432,13 @@ def build_show(show):
 
 
 def build_about():
-    about = load_json(CONTENT / "about.json")
-    bio = about.get("bio", [])
-    desc = about.get("metaDescription") or (truncate(bio[0]) if bio else SITE.get("metaDescription", ""))
+    bio = ABOUT.get("bio", [])
+    desc = ABOUT.get("metaDescription") or (truncate(bio[0]) if bio else SITE.get("metaDescription", ""))
     ctx = base_ctx("../", "about/", f"About - {SITE['name']}", desc,
                    jsonld=jsonld_script(person_ld()))
     ctx["bio"] = bio
-    ctx["exhibitions"] = about.get("selectedExhibitions", [])
-    ctx["education"] = about.get("education", [])
-    ctx["awards"] = about.get("awards", [])
-    ctx["collections"] = about.get("collections", [])
-    ctx["press"] = about.get("press", [])
+    ctx["portrait"] = ABOUT.get("portrait", "")
+    ctx["portraitAlt"] = ABOUT.get("portraitAlt", SITE["name"])
     return write("about/index.html", render_page("about.html", ctx))
 
 

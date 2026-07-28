@@ -1,47 +1,10 @@
-    <section class="page-head">
-      <h1 class="section-title">{{ ui_navAbout }}</h1>
-    </section>
-
-    <section class="about prose">
-      <!-- LOOP:bio --><p>{{ value }}</p><!-- ENDLOOP:bio -->
-    </section>
-
-    <section class="cv">
-      <h2 class="section-title">{{ ui_selectedExhibitions }}</h2>
-      <ul class="cv-list">
-        <!-- LOOP:exhibitions -->
-        <li class="cv-item">
-          <span class="cv-year">{{ year }}</span>
-          <span class="cv-detail"><span class="cv-title">{{ title }}</span><!-- IF:venue -->, {{ venue }}<!-- ENDIF:venue --><!-- IF:city -->, {{ city }}<!-- ENDIF:city --><!-- IF:typeLabel --> ({{ typeLabel }})<!-- ENDIF:typeLabel --></span>
-        </li>
-        <!-- ENDLOOP:exhibitions -->
-      </ul>
-
-      <!-- IF:education -->
-      <h2 class="section-title">{{ ui_education }}</h2>
-      <ul class="cv-list">
-        <!-- LOOP:education --><li class="cv-item"><span class="cv-year">{{ year }}</span><span class="cv-detail">{{ detail }}</span></li><!-- ENDLOOP:education -->
-      </ul>
-      <!-- ENDIF:education -->
-
-      <!-- IF:awards -->
-      <h2 class="section-title">{{ ui_awards }}</h2>
-      <ul class="cv-list">
-        <!-- LOOP:awards --><li class="cv-item"><span class="cv-year">{{ year }}</span><span class="cv-detail">{{ detail }}</span></li><!-- ENDLOOP:awards -->
-      </ul>
-      <!-- ENDIF:awards -->
-
-      <!-- IF:collections -->
-      <h2 class="section-title">{{ ui_collections }}</h2>
-      <ul class="cv-list">
-        <!-- LOOP:collections --><li class="cv-item"><span class="cv-year">{{ year }}</span><span class="cv-detail">{{ detail }}</span></li><!-- ENDLOOP:collections -->
-      </ul>
-      <!-- ENDIF:collections -->
-
-      <!-- IF:press -->
-      <h2 class="section-title">{{ ui_press }}</h2>
-      <ul class="cv-list">
-        <!-- LOOP:press --><li class="cv-item"><span class="cv-year"></span><span class="cv-detail"><a href="{{ url }}" target="_blank" rel="noopener">{{ label }}</a></span></li><!-- ENDLOOP:press -->
-      </ul>
-      <!-- ENDIF:press -->
+    <section class="about-page">
+      <div class="about-page__bio prose">
+        <!-- LOOP:bio --><p>{{ value }}</p><!-- ENDLOOP:bio -->
+      </div>
+      <!-- IF:portrait -->
+      <figure class="about-page__portrait frame">
+        <img src="{{root}}{{ portrait }}" alt="{{ portraitAlt }}">
+      </figure>
+      <!-- ENDIF:portrait -->
     </section>
