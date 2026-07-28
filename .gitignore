@@ -28,6 +28,8 @@ __pycache__/
 *.egg-info/
 node_modules/
 graphify-out/
+.claude/
+.superpowers/
 
 # Internal working docs and planning (kept local, never published)
 *.md
