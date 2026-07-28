@@ -81,7 +81,7 @@
 
   // background click closes; image/controls do not
   box.addEventListener("click", close);
-  boxImg.addEventListener("click", function (e) { e.stopPropagation(); });
+  boxImg.addEventListener("click", function (e) { e.stopPropagation(); close(); });
   closeBtn.addEventListener("click", function (e) { e.stopPropagation(); close(); });
   prevBtn.addEventListener("click", function (e) { e.stopPropagation(); showAt(index - 1); });
   nextBtn.addEventListener("click", function (e) { e.stopPropagation(); showAt(index + 1); });
