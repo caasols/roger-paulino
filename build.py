@@ -18,7 +18,6 @@ import html
 import json
 import re
 from datetime import date
-from itertools import zip_longest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -376,16 +375,9 @@ def build_home(shows):
     ctx = base_ctx("", "", f"{SITE['name']}, Visual Artist (Printmaking and Painting)",
                    SITE.get("metaDescription", ""),
                    jsonld=jsonld_script(person_ld()), body_class="page-home")
-    intro = home.get("intro", [])
-    about = ABOUT.get("bio", [])
-    # Interleave into a 2-column matrix order [intro0, about0, intro1, about1, ...]
-    # so a 2-col grid lays each text down its own column with the rows aligned,
-    # making the second paragraph of each start on the same row.
-    cells = []
-    for left, right in zip_longest(intro, about, fillvalue=""):
-        cells.append(left)
-        cells.append(right)
-    ctx["introCells"] = cells
+    ctx["intro"] = home.get("intro", [])
+    ctx["portrait"] = home.get("portrait", "")
+    ctx["portraitAlt"] = home.get("portraitAlt", SITE["name"])
     ctx["feed"] = [feed_block_ctx(s) for s in shows]
     return write("index.html", render_page("home.html", ctx))
 
@@ -442,21 +434,10 @@ def build_show(show):
     return write(f"exhibitions/{show['slug']}/index.html", render_page("exhibition.html", ctx))
 
 
-def build_about():
-    bio = ABOUT.get("bio", [])
-    desc = ABOUT.get("metaDescription") or (truncate(bio[0]) if bio else SITE.get("metaDescription", ""))
-    ctx = base_ctx("../", "about/", f"About - {SITE['name']}", desc,
-                   jsonld=jsonld_script(person_ld()))
-    ctx["bio"] = bio
-    ctx["portrait"] = ABOUT.get("portrait", "")
-    ctx["portraitAlt"] = ABOUT.get("portraitAlt", SITE["name"])
-    return write("about/index.html", render_page("about.html", ctx))
-
-
 # --- SEO / discovery artifacts ----------------------------------------------
 
 def build_sitemap(shows):
-    urls = [abs_url(), abs_url("exhibitions/"), abs_url("about/")]
+    urls = [abs_url(), abs_url("exhibitions/")]
     urls += [abs_url(f"exhibitions/{s['slug']}/") for s in shows]
     items = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -484,7 +465,6 @@ def build_llms(shows):
         "## Pages",
         f"- Home: {abs_url()}",
         f"- Exhibitions: {abs_url('exhibitions/')}",
-        f"- About and CV: {abs_url('about/')}",
         "",
         "## Contact",
         f"- Email: {SITE['email']}",
@@ -499,7 +479,6 @@ def build():
         build_home(shows),
         build_exhibitions(shows),
         *[build_show(s) for s in shows],
-        build_about(),
         write("sitemap.xml", build_sitemap(shows)),
         write("robots.txt", build_robots()),
         write("llms.txt", build_llms(shows)),

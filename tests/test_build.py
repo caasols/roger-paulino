@@ -324,15 +324,15 @@ class TestBuildIntegration(unittest.TestCase):
     def test_home_page_generated(self):
         home = self._read("index.html")
         self.assertIn('class="page-home"', home)      # per-page body class
-        self.assertIn("home-intro__cell", home)        # two-column matrix intro
+        self.assertIn("home-intro__text", home)         # left column keeps the intro text
+        self.assertIn("home-portrait", home)            # right column is the artist portrait
         self.assertIn("feed-block", home)               # work feed
         self.assertIn("application/ld+json", home)      # Person JSON-LD survives
 
-    def test_about_and_exhibitions_index_generated(self):
-        about = self._read("about/index.html")
-        self.assertIn('class="page-inner"', about)
-        self.assertIn("application/ld+json", about)
-        self.assertIn("index-list__item", self._read("exhibitions/index.html"))
+    def test_exhibitions_index_generated(self):
+        index = self._read("exhibitions/index.html")
+        self.assertIn('class="page-inner"', index)
+        self.assertIn("index-list__item", index)
 
     def test_show_pages_and_seo_artifacts_generated(self):
         shows = sorted((self.tmp / "exhibitions").glob("*/index.html"))

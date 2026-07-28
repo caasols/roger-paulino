@@ -1,5 +1,12 @@
     <section class="home-intro">
-      <!-- LOOP:introCells --><p class="home-intro__cell">{{ value }}</p><!-- ENDLOOP:introCells -->
+      <div class="home-intro__text">
+        <!-- LOOP:intro --><p>{{ value }}</p><!-- ENDLOOP:intro -->
+      </div>
+      <!-- IF:portrait -->
+      <figure class="home-portrait">
+        <img src="{{root}}{{ portrait }}" alt="{{ portraitAlt }}">
+      </figure>
+      <!-- ENDIF:portrait -->
     </section>
 
     <section class="feed">
