@@ -2,6 +2,25 @@
    Neutral, image-forward first pass. Colors live in variables so the look can be
    restyled without touching structure. */
 
+@font-face {
+  font-family: "RPDisplay";
+  src: url("../assets/fonts/archivo-900.woff2") format("woff2");
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RPBody";
+  src: url("../assets/fonts/inter-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RPBody";
+  src: url("../assets/fonts/inter-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
 :root {
   --ink: #141414;
   --paper: #ffffff;
