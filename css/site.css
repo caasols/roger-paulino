@@ -255,17 +255,20 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 }
 
 /* --- responsive --- */
+@media (max-width: 860px) {
+  .cv-footer { grid-template-columns: repeat(2, 1fr); }
+  .feed-block__row { grid-template-columns: 1fr; gap:.6rem; }
+}
 @media (max-width: 720px) {
   .home-intro { grid-template-columns: 1fr; }
-  .home-intro__image-box { position: static; display: block; }
-  .home-intro__image-box img { width: 100%; height: auto; }
-  .nav-toggle { display: inline-block; }
   .site-nav {
     display: none; flex-direction: column; gap: 0.9rem;
     width: 100%; padding-top: 0.5rem;
   }
-  .site-nav.is-open { display: flex; }
-  .cv-item { grid-template-columns: 4rem 1fr; gap: 0.6rem; }
+}
+@media (max-width: 560px) {
+  .cv-footer { grid-template-columns: 1fr; }
+  .site-header { flex-direction:row; align-items:flex-start; }
 }
 
 /* Site is intentionally light/white in all environments (gallery-standard look),
