@@ -86,7 +86,7 @@ a { color: inherit; }
 }
 /* On the home page the intro's own top margin sets the gap under the masthead,
    so drop main's top padding (it would otherwise add an extra, unmatched gap). */
-.page-home main { padding-top: 0; }
+.page-home main { padding-top: 0; padding-bottom: 0; }
 /* Home carries the full-width lockup; inner pages get a smaller masthead so
    the page content is not pushed down by a giant name. */
 .page-inner .masthead {
@@ -148,7 +148,7 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 .home-portrait img { position: absolute; top: 0; bottom: 0; right: 0; height: 100%; width: auto; display: block; }
 .feed {
   display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 6rem);
-  max-width: 1040px; margin: 0 auto; padding: 0 0 4rem;
+  max-width: 1040px; margin: 0 auto; padding: 0;
   width: 100%;
 }
 .feed-block__media { width: 100%; }
@@ -225,16 +225,18 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
   font-size: .8rem; line-height: 1.85; letter-spacing: 0.1em; color: var(--soft);
   text-align: justify; hyphens: auto; -webkit-hyphens: auto;
   /* align the columns to the body width (the images' left/right limits) */
-  max-width: calc(1040px + 2 * var(--pad)); margin: clamp(3rem, 8vw, 6rem) auto 0;
+  max-width: calc(1040px + 2 * var(--pad)); margin: clamp(3rem, 7vw, 6rem) auto 0;
 }
 .cv-col__h {
-  font-family: var(--font-body); font-size: .7rem; text-transform: uppercase;
+  font-family: var(--font-body); font-size: calc(.7rem + 1px); text-transform: uppercase;
   letter-spacing: .12em; color: var(--ink); margin: 1.2rem 0 .4rem;
 }
 .cv-col:first-child .cv-col__h:first-child, .cv-col .cv-col__h:first-child { margin-top: 0; }
 .cv-col ul { list-style: none; margin: 0; padding: 0; }
 .cv-col li { display: grid; grid-template-columns: 3.5em 1fr; gap: 0.5em; }
 .cv-year { white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* collections have no year: single column, no empty year gutter */
+.cv-col__plain li { display: block; }
 .cv-col a { color: var(--soft); text-decoration: none; display: block; }
 .cv-col a:hover { color: var(--ink); }
 .cv-footer__legal { grid-column: 1 / -1; margin: 2rem 0 0; color: var(--soft); text-align: center; line-height: 1.7; }

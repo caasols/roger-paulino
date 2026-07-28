@@ -44,7 +44,7 @@
       <h2 class="cv-col__h">Awards</h2>
       <ul><!-- LOOP:cv_awards --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_awards --></ul>
       <h2 class="cv-col__h">Collections</h2>
-      <ul><!-- LOOP:cv_collections --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_collections --></ul>
+      <ul class="cv-col__plain"><!-- LOOP:cv_collections --><li><!-- IF:url --><a href="{{ url }}" target="_blank" rel="noopener">{{ text }}</a><!-- ENDIF:url --><!-- IF:plain -->{{ text }}<!-- ENDIF:plain --></li><!-- ENDLOOP:cv_collections --></ul>
     </div>
     <p class="cv-footer__legal">
       {{ site_name }} &copy; <span class="js-year">{{ site_year }}</span><br>

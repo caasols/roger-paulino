@@ -199,8 +199,12 @@ def footer_cv():
     solo = [_cv_show_item(e) for e in ex if e.get("typeLabel") in ("Solo", "Duo")]
     group = [_cv_show_item(e) for e in ex if e.get("typeLabel") == "Group"]
     def items(key):
-        return [{"year": _cv_year(r.get("year", "")), "text": r.get("detail", "")}
-                for r in ABOUT.get(key, [])]
+        out = []
+        for r in ABOUT.get(key, []):
+            url = r.get("url", "")
+            out.append({"year": _cv_year(r.get("year", "")), "text": r.get("detail", ""),
+                        "url": url, "plain": not url})
+        return out
     return {"soloShows": solo, "groupShows": group,
             "education": items("education"), "awards": items("awards"),
             "collections": items("collections")}
