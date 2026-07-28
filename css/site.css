@@ -4,8 +4,8 @@
 
 @font-face {
   font-family: "RPDisplay";
-  src: url("../assets/fonts/archivo-900.woff2") format("woff2");
-  font-weight: 900;
+  src: url("../assets/fonts/space-grotesk-300.woff2") format("woff2");
+  font-weight: 300;
   font-display: swap;
 }
 @font-face {
@@ -57,26 +57,32 @@ a { color: inherit; }
 
 /* --- header / nav --- */
 .site-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  padding: clamp(1rem, 3vw, 2rem) var(--pad);
+  position: relative;
+  display: block;
+  text-align: center;
+  padding: clamp(1.25rem, 3vw, 2.25rem) var(--pad) 0;
   border: 0;
-  position: static;
 }
 .masthead {
+  display: block;
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 300;
   text-transform: uppercase;
-  line-height: .84;
-  letter-spacing: -.02em;
+  text-align: center;
+  line-height: .86;
+  letter-spacing: -.01em;
   text-decoration: none;
   color: var(--ink);
-  font-size: clamp(2.5rem, 11vw, 8rem);
+  font-size: clamp(3rem, 19vw, 13rem);
+  margin: clamp(.5rem, 2vw, 1.5rem) 0 clamp(2rem, 5vw, 4rem);
 }
-.site-nav { display: flex; gap: 1.5rem; }
+.site-nav {
+  position: absolute;
+  top: clamp(1.25rem, 3vw, 2.25rem);
+  right: var(--pad);
+  display: flex;
+  gap: 1.5rem;
+}
 .site-nav a {
   font-family: var(--font-body);
   text-decoration: none;
@@ -139,7 +145,8 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 .home-intro { max-width: 60ch; margin: clamp(1.5rem, 4vw, 3rem) var(--pad); }
 .feed {
   display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 6rem);
-  padding: 0 var(--pad) 4rem;
+  max-width: 1040px; margin: 0 auto; padding: 0 var(--pad) 4rem;
+  width: 100%;
 }
 .feed-block__media { width: 100%; }
 .feed-block__row {
@@ -148,8 +155,8 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
   border-top: 1px solid var(--line);
 }
 .feed-block__id a {
-  font-family: var(--font-display); font-weight: 900; font-size: 1.15rem;
-  text-transform: uppercase; letter-spacing: -.01em; text-decoration: none; color: var(--ink);
+  font-family: var(--font-display); font-weight: 400; font-size: 1.05rem;
+  letter-spacing: 0; text-transform: none; text-decoration: none; color: var(--ink);
 }
 .feed-block__year { display: block; color: var(--soft); }
 .feed-block__meta {
