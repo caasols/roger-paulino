@@ -8,12 +8,12 @@
       </header>
 
       <!-- IF:heroSrc -->
-      <figure class="show__hero">
-        <a class="gallery__item" href="{{root}}{{ heroSrc }}"><img src="{{root}}{{ heroSrc }}" alt="{{ heroAlt }}"></a>
+      <figure class="show__figure frame">
+        <a class="gallery__item" href="{{root}}{{ heroSrc }}"><img src="{{root}}{{ heroSrc }}" alt="{{ heroAlt }}" loading="lazy"></a>
       </figure>
       <!-- ENDIF:heroSrc -->
       <!-- IF:noHero -->
-      <p class="show__placeholder">{{ ui_imagesComing }}</p>
+      <div class="show__placeholder frame"><span class="dotgrid" aria-hidden="true"></span><span class="show__placeholder-label">{{ ui_imagesComing }}</span></div>
       <!-- ENDIF:noHero -->
 
       <!-- IF:statement -->
@@ -33,9 +33,11 @@
       <!-- ENDIF:videos -->
 
       <!-- IF:gallery -->
-      <section class="show__gallery gallery">
+      <section class="show__figures">
         <!-- LOOP:gallery -->
-        <a class="gallery__item" href="{{root}}{{ src }}"><img loading="lazy" src="{{root}}{{ thumb }}" alt="{{ alt }}"></a>
+        <figure class="show__figure frame">
+          <a class="gallery__item" href="{{root}}{{ src }}"><img loading="lazy" src="{{root}}{{ thumb }}" alt="{{ alt }}"></a>
+        </figure>
         <!-- ENDLOOP:gallery -->
       </section>
       <!-- ENDIF:gallery -->
