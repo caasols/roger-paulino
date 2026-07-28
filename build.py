@@ -112,6 +112,7 @@ def sort_key(show):
 # --- content + site-wide values ---------------------------------------------
 
 SITE = load_json(CONTENT / "site.json")
+ABOUT = load_json(CONTENT / "about.json")
 YEAR = str(date.today().year)
 SITE_URL = SITE.get("siteUrl", "").rstrip("/")
 DEFAULT_OG_IMAGE = f"{SITE_URL}/assets/og/og-default.jpg"
@@ -182,6 +183,25 @@ def person_ld():
     return obj
 
 
+def _cv_show_line(e):
+    bits = [e.get("year", ""), e.get("title", "")]
+    tail = ", ".join(x for x in [e.get("venue", ""), e.get("city", "")] if x)
+    line = " ".join(x for x in bits if x)
+    return {"line": f"{line}, {tail}" if tail else line}
+
+
+def footer_cv():
+    ex = ABOUT.get("selectedExhibitions", [])
+    solo = [_cv_show_line(e) for e in ex if e.get("typeLabel") in ("Solo", "Duo")]
+    group = [_cv_show_line(e) for e in ex if e.get("typeLabel") == "Group"]
+    def lines(key):
+        return [{"line": f"{r.get('year','')} {r.get('detail','')}".strip()}
+                for r in ABOUT.get(key, [])]
+    return {"soloShows": solo, "groupShows": group,
+            "education": lines("education"), "awards": lines("awards"),
+            "collections": lines("collections")}
+
+
 def exhibition_ld(show, image):
     place = {"@type": "Place", "name": show.get("venue") or show.get("city") or SITE["name"]}
     if show.get("address"):
@@ -248,6 +268,12 @@ def base_ctx(root, path, page_title, description="", og_image=None,
     }
     for key, value in SITE.get("ui", {}).items():
         ctx[f"ui_{key}"] = value
+    cv = footer_cv()
+    ctx["cv_groupShows"] = cv["groupShows"]
+    ctx["cv_soloShows"] = cv["soloShows"]
+    ctx["cv_education"] = cv["education"]
+    ctx["cv_awards"] = cv["awards"]
+    ctx["cv_collections"] = cv["collections"]
     return ctx
 
 

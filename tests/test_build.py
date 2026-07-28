@@ -236,6 +236,23 @@ class TestFeedBlock(unittest.TestCase):
         self.assertEqual(b["heroAlt"], "A")
 
 
+class TestFooterCv(unittest.TestCase):
+    def test_footer_cv_splits_solo_and_group(self):
+        cv = build.footer_cv()
+        self.assertTrue(all("line" in x for x in cv["groupShows"]))
+        joined_solo = " | ".join(x["line"] for x in cv["soloShows"])
+        self.assertIn("The World Smiles at Us", joined_solo)   # a Solo entry
+        joined_group = " | ".join(x["line"] for x in cv["groupShows"])
+        self.assertIn("OFF FIELD", joined_group)               # a Group entry
+
+    def test_base_ctx_exposes_cv_columns_site_wide(self):
+        ctx = build.base_ctx("", "", "t")
+        for k in ("cv_groupShows", "cv_soloShows", "cv_education",
+                  "cv_awards", "cv_collections"):
+            self.assertIn(k, ctx)
+        self.assertTrue(len(ctx["cv_education"]) >= 1)
+
+
 class TestPersonEntity(unittest.TestCase):
     def test_metadescription_says_leipzig_not_portugal(self):
         md = build.SITE["metaDescription"]
