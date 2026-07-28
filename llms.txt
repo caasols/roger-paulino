@@ -18,7 +18,6 @@ His work draws from diverse sources and manifests in a wide variety of forms, ex
 ## Pages
 - Home: https://caasols.github.io/roger-paulino/
 - Exhibitions: https://caasols.github.io/roger-paulino/exhibitions/
-- About and CV: https://caasols.github.io/roger-paulino/about/
 
 ## Contact
 - Email: roger.paulino@posteo.net
