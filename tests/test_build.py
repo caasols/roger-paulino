@@ -288,5 +288,92 @@ class TestBodyClass(unittest.TestCase):
         self.assertEqual(ctx["body_class"], "page-home")
 
 
+class TestBuildIntegration(unittest.TestCase):
+    """Run the whole builder into a throwaway dir so the page-builder functions
+    (build_home/show/about/exhibitions + sitemap/robots/llms) are exercised end
+    to end, without touching the real repo output. The show JSONs carry explicit
+    media arrays, so no assets need to exist on disk for the pages to render."""
+
+    @classmethod
+    def setUpClass(cls):
+        import contextlib
+        import io
+        import shutil
+        import tempfile
+        repo = Path(build.__file__).resolve().parent
+        cls.tmp = Path(tempfile.mkdtemp())
+        shutil.copytree(repo / "content", cls.tmp / "content")
+        shutil.copytree(repo / "templates", cls.tmp / "templates")
+        saved = (build.ROOT, build.CONTENT, build.TEMPLATES)
+        build.ROOT, build.CONTENT, build.TEMPLATES = (
+            cls.tmp, cls.tmp / "content", cls.tmp / "templates")
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                build.build()
+        finally:
+            build.ROOT, build.CONTENT, build.TEMPLATES = saved
+
+    @classmethod
+    def tearDownClass(cls):
+        import shutil
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def _read(self, rel):
+        return (self.tmp / rel).read_text(encoding="utf-8")
+
+    def test_home_page_generated(self):
+        home = self._read("index.html")
+        self.assertIn('class="page-home"', home)      # per-page body class
+        self.assertIn("home-intro__cell", home)        # two-column matrix intro
+        self.assertIn("feed-block", home)               # work feed
+        self.assertIn("application/ld+json", home)      # Person JSON-LD survives
+
+    def test_about_and_exhibitions_index_generated(self):
+        about = self._read("about/index.html")
+        self.assertIn('class="page-inner"', about)
+        self.assertIn("application/ld+json", about)
+        self.assertIn("index-list__item", self._read("exhibitions/index.html"))
+
+    def test_show_pages_and_seo_artifacts_generated(self):
+        shows = sorted((self.tmp / "exhibitions").glob("*/index.html"))
+        self.assertGreaterEqual(len(shows), 1)
+        joined = "\n".join(p.read_text(encoding="utf-8") for p in shows)
+        self.assertIn("ExhibitionEvent", joined)        # per-show JSON-LD
+        self.assertIn("gallery__item", joined)          # lightbox hook (show with images)
+        for name in ("sitemap.xml", "robots.txt", "llms.txt"):
+            self.assertTrue((self.tmp / name).exists(), name)
+        self.assertIn("<urlset", self._read("sitemap.xml"))
+
+
+class TestMediaFallbacks(unittest.TestCase):
+    def test_hero_of_falls_back_to_first_when_none_marked(self):
+        media = [{"type": "image", "src": "a.jpg"}, {"type": "image", "src": "b.jpg"}]
+        self.assertEqual(build.hero_of(media)["src"], "a.jpg")
+
+    def test_autodiscover_media_scans_folder_and_skips_derivatives(self):
+        import shutil
+        import tempfile
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        slug = "demo"
+        folder = tmp / "assets" / slug
+        folder.mkdir(parents=True)
+        (folder / "a.jpg").write_bytes(b"x")
+        (folder / "thumb-a.jpg").write_bytes(b"x")     # derivative: must be skipped
+        (folder / "a-poster.jpg").write_bytes(b"x")    # video poster: must be skipped
+        (folder / "clip.mp4").write_bytes(b"x")
+        saved = build.ROOT
+        build.ROOT = tmp
+        try:
+            media = build.autodiscover_media(slug)
+        finally:
+            build.ROOT = saved
+        srcs = [m["src"] for m in media]
+        self.assertIn(f"assets/{slug}/a.jpg", srcs)
+        self.assertIn(f"assets/{slug}/clip.mp4", srcs)
+        self.assertFalse(any("thumb-" in s or "-poster.jpg" in s for s in srcs))
+        self.assertTrue(media[0].get("hero"))          # first discovered image is the hero
+
+
 if __name__ == "__main__":
     unittest.main()
