@@ -183,23 +183,27 @@ def person_ld():
     return obj
 
 
-def _cv_show_line(e):
-    bits = [e.get("year", ""), e.get("title", "")]
-    tail = ", ".join(x for x in [e.get("venue", ""), e.get("city", "")] if x)
-    line = " ".join(x for x in bits if x)
-    return {"line": f"{line}, {tail}" if tail else line}
+def _cv_year(y):
+    # collapse a range like "2013-2014" to its end year, so the year column stays
+    # a single 4-digit value and can be narrow and consistent across all columns
+    return str(y).split("-")[-1].strip() if y else ""
+
+
+def _cv_show_item(e):
+    text = ", ".join(x for x in [e.get("title", ""), e.get("venue", ""), e.get("city", "")] if x)
+    return {"year": _cv_year(e.get("year", "")), "text": text}
 
 
 def footer_cv():
     ex = ABOUT.get("selectedExhibitions", [])
-    solo = [_cv_show_line(e) for e in ex if e.get("typeLabel") in ("Solo", "Duo")]
-    group = [_cv_show_line(e) for e in ex if e.get("typeLabel") == "Group"]
-    def lines(key):
-        return [{"line": f"{r.get('year','')} {r.get('detail','')}".strip()}
+    solo = [_cv_show_item(e) for e in ex if e.get("typeLabel") in ("Solo", "Duo")]
+    group = [_cv_show_item(e) for e in ex if e.get("typeLabel") == "Group"]
+    def items(key):
+        return [{"year": _cv_year(r.get("year", "")), "text": r.get("detail", "")}
                 for r in ABOUT.get(key, [])]
     return {"soloShows": solo, "groupShows": group,
-            "education": lines("education"), "awards": lines("awards"),
-            "collections": lines("collections")}
+            "education": items("education"), "awards": items("awards"),
+            "collections": items("collections")}
 
 
 def exhibition_ld(show, image):

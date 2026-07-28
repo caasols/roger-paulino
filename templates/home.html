@@ -1,6 +1,14 @@
     <section class="home-intro">
       <div class="home-intro__text">
         <!-- LOOP:intro --><p>{{ value }}</p><!-- ENDLOOP:intro -->
+        <div class="home-intro__contact">
+          <a href="mailto:{{ site_email }}" aria-label="Email">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
+          </a>
+          <a href="{{ site_instagram }}" target="_blank" rel="me noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
       </div>
       <!-- IF:portrait -->
       <figure class="home-portrait">

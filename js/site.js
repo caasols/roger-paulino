@@ -102,4 +102,9 @@
       controls[(at + dir + controls.length) % controls.length].focus();
     }
   });
+
+  // Footer copyright year: always the current year (the built-in value is the no-JS fallback)
+  Array.prototype.forEach.call(document.querySelectorAll(".js-year"), function (el) {
+    el.textContent = new Date().getFullYear();
+  });
 })();

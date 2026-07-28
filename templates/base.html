@@ -31,27 +31,25 @@
 
   <footer class="site-footer cv-footer">
     <div class="cv-col">
-      <h2 class="cv-col__h">Information</h2>
-      <a href="{{ site_instagram }}" target="_blank" rel="me noopener">Instagram</a>
-      <a href="mailto:{{ site_email }}">{{ site_email }}</a>
-    </div>
-    <div class="cv-col">
       <h2 class="cv-col__h">Solo &amp; duo</h2>
-      <ul><!-- LOOP:cv_soloShows --><li>{{ line }}</li><!-- ENDLOOP:cv_soloShows --></ul>
+      <ul><!-- LOOP:cv_soloShows --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_soloShows --></ul>
     </div>
     <div class="cv-col">
       <h2 class="cv-col__h">Group shows</h2>
-      <ul><!-- LOOP:cv_groupShows --><li>{{ line }}</li><!-- ENDLOOP:cv_groupShows --></ul>
+      <ul><!-- LOOP:cv_groupShows --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_groupShows --></ul>
     </div>
     <div class="cv-col">
       <h2 class="cv-col__h">Education</h2>
-      <ul><!-- LOOP:cv_education --><li>{{ line }}</li><!-- ENDLOOP:cv_education --></ul>
+      <ul><!-- LOOP:cv_education --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_education --></ul>
       <h2 class="cv-col__h">Awards</h2>
-      <ul><!-- LOOP:cv_awards --><li>{{ line }}</li><!-- ENDLOOP:cv_awards --></ul>
+      <ul><!-- LOOP:cv_awards --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_awards --></ul>
       <h2 class="cv-col__h">Collections</h2>
-      <ul><!-- LOOP:cv_collections --><li>{{ line }}</li><!-- ENDLOOP:cv_collections --></ul>
+      <ul><!-- LOOP:cv_collections --><li><span class="cv-year">{{ year }}</span><span class="cv-text">{{ text }}</span></li><!-- ENDLOOP:cv_collections --></ul>
     </div>
-    <p class="cv-footer__legal">{{ site_name }} &copy; {{ site_year }}</p>
+    <p class="cv-footer__legal">
+      {{ site_name }} &copy; <span class="js-year">{{ site_year }}</span><br>
+      <span class="cv-footer__credit">Made with &#9829; by <a href="https://benevol.us" target="_blank" rel="noopener">Benevolus</a></span>
+    </p>
   </footer>
 
   <script src="{{root}}js/site.js"></script>

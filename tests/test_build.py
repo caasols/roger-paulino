@@ -239,11 +239,14 @@ class TestFeedBlock(unittest.TestCase):
 class TestFooterCv(unittest.TestCase):
     def test_footer_cv_splits_solo_and_group(self):
         cv = build.footer_cv()
-        self.assertTrue(all("line" in x for x in cv["groupShows"]))
-        joined_solo = " | ".join(x["line"] for x in cv["soloShows"])
+        self.assertTrue(all("year" in x and "text" in x for x in cv["groupShows"]))
+        joined_solo = " | ".join(x["text"] for x in cv["soloShows"])
         self.assertIn("The World Smiles at Us", joined_solo)   # a Solo entry
-        joined_group = " | ".join(x["line"] for x in cv["groupShows"])
+        joined_group = " | ".join(x["text"] for x in cv["groupShows"])
         self.assertIn("OFF FIELD", joined_group)               # a Group entry
+        self.assertIn("2023", [x["year"] for x in cv["soloShows"]])  # year split out
+        self.assertTrue(all("-" not in x["year"] for x in cv["education"]))  # ranges collapsed to end year
+        self.assertIn("2025", [x["year"] for x in cv["education"]])  # "2018-2025" -> "2025"
 
     def test_base_ctx_exposes_cv_columns_site_wide(self):
         ctx = build.base_ctx("", "", "t")
