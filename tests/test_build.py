@@ -193,6 +193,25 @@ class TestSeoHelpers(unittest.TestCase):
         self.assertIn("Leipzig", txt)  # bio grounding fact present
 
 
+class TestFeedHelpers(unittest.TestCase):
+    def test_year_of_variants(self):
+        self.assertEqual(build.year_of({"dateStart": "2026-02-10"}), "2026")
+        self.assertEqual(build.year_of({"dateStart": "2013-2014"}), "2013")
+        self.assertEqual(build.year_of({}), "")
+
+    def test_feed_excerpt_prefers_explicit_field(self):
+        show = {"feedExcerpt": "Hand written.", "statement": ["Ignore me."]}
+        self.assertEqual(build.feed_excerpt(show), "Hand written.")
+
+    def test_feed_excerpt_derives_from_statement_first_sentence(self):
+        show = {"statement": ["A quiet room. A loud idea.", "Second para."]}
+        self.assertEqual(build.feed_excerpt(show), "A quiet room.")
+
+    def test_feed_excerpt_empty_when_nothing(self):
+        self.assertEqual(build.feed_excerpt({}), "")
+        self.assertEqual(build.feed_excerpt({"statement": []}), "")
+
+
 class TestPersonEntity(unittest.TestCase):
     def test_metadescription_says_leipzig_not_portugal(self):
         md = build.SITE["metaDescription"]

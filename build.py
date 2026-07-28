@@ -129,6 +129,26 @@ def truncate(text, limit=160):
     return text[:limit].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
 
 
+def year_of(show):
+    """First 4-digit run of `dateStart` (start year of a range), else ''."""
+    m = re.match(r"(\d{4})", str(show.get("dateStart", "")))
+    return m.group(1) if m else ""
+
+
+def feed_excerpt(show, limit=180):
+    """Home-feed teaser: explicit `feedExcerpt`, else the opening sentence of
+    the statement, else empty. First sentence = up to the first period."""
+    if show.get("feedExcerpt"):
+        return show["feedExcerpt"]
+    paras = show.get("statement") or []
+    if not paras:
+        return ""
+    first = " ".join(paras[0].split())
+    head, dot, _ = first.partition(".")
+    sentence = (head + dot) if dot else first
+    return truncate(sentence, limit)
+
+
 def jsonld_script(obj):
     # replace </ so a value can never close the <script> tag early
     data = json.dumps(obj, ensure_ascii=False).replace("</", "<\\/")
