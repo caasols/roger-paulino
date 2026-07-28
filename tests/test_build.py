@@ -212,6 +212,30 @@ class TestFeedHelpers(unittest.TestCase):
         self.assertEqual(build.feed_excerpt({"statement": []}), "")
 
 
+class TestFeedBlock(unittest.TestCase):
+    def test_feed_block_ctx_shapes_a_show(self):
+        show = {"slug": "x", "title": "X", "venue": "Gal", "city": "Lisboa",
+                "type": "solo", "dateStart": "2025-03", "medium": "linocut",
+                "statement": ["A line. B line."], "media": []}
+        b = build.feed_block_ctx(show)
+        self.assertEqual(b["title"], "X")
+        self.assertEqual(b["year"], "2025")
+        self.assertEqual(b["place"], "Gal, Lisboa")
+        self.assertEqual(b["typeLabel"], "Solo exhibition")
+        self.assertEqual(b["medium"], "linocut")
+        self.assertEqual(b["excerpt"], "A line.")
+        self.assertEqual(b["url"], "exhibitions/x/index.html")
+        self.assertTrue(b["noImage"])
+
+    def test_feed_block_hero_when_media_present(self):
+        show = {"slug": "y", "title": "Y", "media": [
+            {"type": "image", "src": "assets/y/a.jpg", "hero": True, "alt": "A"}]}
+        b = build.feed_block_ctx(show)
+        self.assertTrue(b["hasImage"])
+        self.assertEqual(b["heroSrc"], "assets/y/a.jpg")
+        self.assertEqual(b["heroAlt"], "A")
+
+
 class TestPersonEntity(unittest.TestCase):
     def test_metadescription_says_leipzig_not_portugal(self):
         md = build.SITE["metaDescription"]

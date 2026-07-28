@@ -308,6 +308,24 @@ def card_ctx(show):
     }
 
 
+def feed_block_ctx(show):
+    media = resolve_media(show)
+    hero = hero_of(media)
+    return {
+        "title": show["title"],
+        "year": year_of(show),
+        "place": place_label(show),
+        "typeLabel": TYPE_LABELS.get(show.get("type", ""), ""),
+        "medium": show.get("medium", ""),
+        "excerpt": feed_excerpt(show),
+        "url": show_url(show),
+        "heroSrc": hero["src"] if hero else "",
+        "heroAlt": (hero.get("alt") or show["title"]) if hero else "",
+        "hasImage": bool(hero),
+        "noImage": not hero,
+    }
+
+
 # --- template rendering ------------------------------------------------------
 
 def render_page(body_tpl_name, ctx):
@@ -331,9 +349,7 @@ def build_home(shows):
                    SITE.get("metaDescription", ""),
                    jsonld=jsonld_script(person_ld()))
     ctx["intro"] = home.get("intro", [])
-    ctx["hero"] = home.get("hero", "")
-    ctx["heroAlt"] = home.get("heroAlt", "")
-    ctx["recent"] = [card_ctx(s) for s in shows[: home.get("recentCount", 3)]]
+    ctx["feed"] = [feed_block_ctx(s) for s in shows]
     return write("index.html", render_page("home.html", ctx))
 
 
