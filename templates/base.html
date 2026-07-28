@@ -22,20 +22,9 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="{{root}}index.html">{{ site_name }}</a>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+    <a class="masthead" href="{{root}}index.html">Roger<br>Paulino</a>
     <nav class="site-nav">
-      <a href="{{root}}index.html">{{ ui_navHome }}</a>
       <a href="{{root}}about/index.html">{{ ui_navAbout }}</a>
-      <a href="{{root}}exhibitions/index.html">{{ ui_navExhibitions }}</a>
-      <span class="nav-icons">
-        <a class="icon-link" href="{{ site_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-        </a>
-        <a class="icon-link" href="mailto:{{ site_email }}" aria-label="Email">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
-        </a>
-      </span>
     </nav>
   </header>
 
@@ -43,16 +32,29 @@
 {{ content }}
   </main>
 
-  <footer class="site-footer">
-    <p>{{ site_name }} &middot; &copy; {{ site_year }}</p>
-    <span class="footer-icons">
-      <a class="icon-link" href="{{ site_instagram }}" target="_blank" rel="me noopener" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a class="icon-link" href="mailto:{{ site_email }}" aria-label="Email">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
-      </a>
-    </span>
+  <footer class="site-footer cv-footer">
+    <div class="cv-col">
+      <h2 class="cv-col__h">Information</h2>
+      <a href="{{ site_instagram }}" target="_blank" rel="me noopener">Instagram</a>
+      <a href="mailto:{{ site_email }}">{{ site_email }}</a>
+    </div>
+    <div class="cv-col">
+      <h2 class="cv-col__h">Solo &amp; duo</h2>
+      <ul><!-- LOOP:cv_soloShows --><li>{{ line }}</li><!-- ENDLOOP:cv_soloShows --></ul>
+    </div>
+    <div class="cv-col">
+      <h2 class="cv-col__h">Group shows</h2>
+      <ul><!-- LOOP:cv_groupShows --><li>{{ line }}</li><!-- ENDLOOP:cv_groupShows --></ul>
+    </div>
+    <div class="cv-col">
+      <h2 class="cv-col__h">Education</h2>
+      <ul><!-- LOOP:cv_education --><li>{{ line }}</li><!-- ENDLOOP:cv_education --></ul>
+      <h2 class="cv-col__h">Awards</h2>
+      <ul><!-- LOOP:cv_awards --><li>{{ line }}</li><!-- ENDLOOP:cv_awards --></ul>
+      <h2 class="cv-col__h">Collections</h2>
+      <ul><!-- LOOP:cv_collections --><li>{{ line }}</li><!-- ENDLOOP:cv_collections --></ul>
+    </div>
+    <p class="cv-footer__legal">{{ site_name }} &copy; {{ site_year }}</p>
   </footer>
 
   <script src="{{root}}js/site.js"></script>
