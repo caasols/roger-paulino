@@ -124,18 +124,20 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(1.5rem, 4vw, 3rem);
-  align-items: start;
+  align-items: stretch;
 }
-/* Original intro text styling (body 17px / ink / 1.55) + prose justify. */
+/* Intro text: original body styling (17px / ink / 1.55) + prose justify. */
 .home-intro__text {
   text-align: justify;
   hyphens: auto;
   -webkit-hyphens: auto;
 }
-.home-intro__text p { margin: 0 0 1.1rem; }
+.home-intro__text p { margin: 0 0 1.6rem; text-indent: 3.5em; }
 .home-intro__text p:last-child { margin-bottom: 0; }
-.home-portrait { margin: 0; }
-.home-portrait img { display: block; width: 100%; height: auto; }
+/* Portrait height tracks the text column; the image is absolutely positioned so
+   the two paragraphs define the row height, and it scales to fit (width auto). */
+.home-portrait { position: relative; margin: 0; }
+.home-portrait img { position: absolute; top: 0; bottom: 0; right: 0; height: 100%; width: auto; display: block; }
 .feed {
   display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 6rem);
   max-width: 1040px; margin: 0 auto; padding: 0 0 4rem;
@@ -262,6 +264,9 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 @media (max-width: 560px) {
   .cv-footer { grid-template-columns: 1fr; }
   .home-intro { grid-template-columns: 1fr; }
+  /* stacked: portrait returns to normal flow, full width */
+  .home-portrait { position: static; }
+  .home-portrait img { position: static; width: 100%; height: auto; max-width: 460px; }
 }
 
 /* Site is intentionally light/white in all environments (gallery-standard look),
