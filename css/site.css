@@ -78,7 +78,10 @@ a { color: inherit; }
      Extra vertical margin reserves room since the transform overflows the box. */
   transform: scaleY(1.3);
   transform-origin: center;
-  margin: clamp(3rem, 6vw, 5rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+  /* Top margin gives space from the nav. No bottom margin: the gap below the
+     masthead is set by the intro's own top margin, so the masthead-to-intro
+     gap matches the intro-to-image gap below it. */
+  margin: clamp(4rem, 8vw, 6.5rem) 0 0;
 }
 /* Home carries the full-width lockup; inner pages get a smaller masthead so
    the page content is not pushed down by a giant name. */
@@ -115,20 +118,9 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 .prose { max-width: var(--textw); text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
 .prose p { margin: 0 0 1.1rem; }
 
-/* --- frame: the signature registration-mark border, pure CSS, no extra markup ---
-   Four corner "+" marks are drawn with two pseudo-elements: each is a full-width
-   flex row spanning the frame with a "+" pushed to each end via
-   justify-content:space-between; ::before is the top row, ::after the bottom.
-   They are decorative (pointer-events:none) and add no content for a11y. */
+/* --- frame: plain media container (registration "+" corner marks removed per design) --- */
 .frame { position: relative; display: block; background: #f2f2f2; }
 .frame img { display: block; width: 100%; height: auto; }
-.frame::before, .frame::after {
-  content: "+  +"; position: absolute; left: 8px; right: 8px;
-  display: flex; justify-content: space-between;
-  color: #8a8a8a; font: 400 18px/1 var(--font-body); pointer-events: none; z-index: 1;
-}
-.frame::before { top: 4px; }
-.frame::after { bottom: 2px; }
 
 /* Dot-grid empty state (used inside .frame when an image is not yet available) */
 .dotgrid {
@@ -140,7 +132,23 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 /* --- home / feed --- */
 /* main already applies var(--pad) as the page gutter, so intro/feed only center
    within it (no extra horizontal padding, which previously doubled the inset). */
-.home-intro { max-width: 60ch; margin: clamp(1.5rem, 4vw, 3rem) auto; }
+/* Intro: aligned to the feed's left edge (same 1040 box), styled like the CV
+   footer text (small, muted). Two explicit columns, paragraphs stacked in each. */
+.home-intro {
+  max-width: 1040px;
+  margin: clamp(2.25rem, 6vw, 4.5rem) auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* row-gap (between the top and bottom paragraph rows) column-gap (left/right) */
+  gap: clamp(.75rem, 2vw, 1.25rem) clamp(1.5rem, 4vw, 3rem);
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  font-size: calc(.8rem + 1.5px);
+  line-height: 1.5;
+  color: var(--soft);
+}
+.home-intro__cell { margin: 0; }
 .feed {
   display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 6rem);
   max-width: 1040px; margin: 0 auto; padding: 0 0 4rem;
@@ -161,7 +169,7 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
   display: flex; flex-direction: column; gap: .15rem; color: var(--soft);
   font-size: .9rem;
 }
-.feed-block__excerpt { margin: 0; font-size: .95rem; line-height: 1.55; max-width: 46ch; }
+.feed-block__excerpt { margin: 0; font-size: .95rem; line-height: 1.55; max-width: 46ch; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
 
 /* --- show page --- */
 .show { max-width: var(--maxw); }
@@ -266,6 +274,7 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 }
 @media (max-width: 560px) {
   .cv-footer { grid-template-columns: 1fr; }
+  .home-intro { grid-template-columns: 1fr; }
 }
 
 /* Site is intentionally light/white in all environments (gallery-standard look),

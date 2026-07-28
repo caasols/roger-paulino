@@ -18,6 +18,7 @@ import html
 import json
 import re
 from datetime import date
+from itertools import zip_longest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -375,7 +376,16 @@ def build_home(shows):
     ctx = base_ctx("", "", f"{SITE['name']}, Visual Artist (Printmaking and Painting)",
                    SITE.get("metaDescription", ""),
                    jsonld=jsonld_script(person_ld()), body_class="page-home")
-    ctx["intro"] = home.get("intro", [])
+    intro = home.get("intro", [])
+    about = ABOUT.get("bio", [])
+    # Interleave into a 2-column matrix order [intro0, about0, intro1, about1, ...]
+    # so a 2-col grid lays each text down its own column with the rows aligned,
+    # making the second paragraph of each start on the same row.
+    cells = []
+    for left, right in zip_longest(intro, about, fillvalue=""):
+        cells.append(left)
+        cells.append(right)
+    ctx["introCells"] = cells
     ctx["feed"] = [feed_block_ctx(s) for s in shows]
     return write("index.html", render_page("home.html", ctx))
 
