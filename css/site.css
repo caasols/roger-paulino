@@ -76,6 +76,12 @@ a { color: inherit; }
   font-size: clamp(3rem, 19vw, 13rem);
   margin: clamp(.5rem, 2vw, 1.5rem) 0 clamp(2rem, 5vw, 4rem);
 }
+/* Home carries the full-width lockup; inner pages get a smaller masthead so
+   the page content is not pushed down by a giant name. */
+.page-inner .masthead {
+  font-size: clamp(1.6rem, 6vw, 3.75rem);
+  margin: clamp(.5rem, 2vw, 1rem) 0 clamp(1.5rem, 4vw, 2.5rem);
+}
 .site-nav {
   position: absolute;
   top: clamp(1.25rem, 3vw, 2.25rem);
@@ -91,20 +97,6 @@ a { color: inherit; }
   transition: color 0.15s ease;
 }
 .site-nav a:hover { color: var(--ink); }
-.nav-toggle {
-  display: none;
-  background: none;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 0.35rem 0.7rem;
-  font: inherit;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.nav-icons, .footer-icons { display: inline-flex; align-items: center; gap: 1rem; }
-.icon-link { display: inline-flex; align-items: center; color: var(--soft); transition: color 0.15s ease; }
-.icon-link:hover { color: var(--ink); }
-.icon-link svg { display: block; }
 
 /* --- layout --- */
 main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%; flex: 1 0 auto; }
@@ -142,10 +134,12 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 }
 
 /* --- home / feed --- */
-.home-intro { max-width: 60ch; margin: clamp(1.5rem, 4vw, 3rem) var(--pad); }
+/* main already applies var(--pad) as the page gutter, so intro/feed only center
+   within it (no extra horizontal padding, which previously doubled the inset). */
+.home-intro { max-width: 60ch; margin: clamp(1.5rem, 4vw, 3rem) auto; }
 .feed {
   display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 6rem);
-  max-width: 1040px; margin: 0 auto; padding: 0 var(--pad) 4rem;
+  max-width: 1040px; margin: 0 auto; padding: 0 0 4rem;
   width: 100%;
 }
 .feed-block__media { width: 100%; }
@@ -266,12 +260,8 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
   .cv-footer { grid-template-columns: repeat(2, 1fr); }
   .feed-block__row { grid-template-columns: 1fr; gap:.6rem; }
 }
-@media (max-width: 720px) {
-  .home-intro { grid-template-columns: 1fr; }
-}
 @media (max-width: 560px) {
   .cv-footer { grid-template-columns: 1fr; }
-  .site-header { flex-direction:row; align-items:flex-start; }
 }
 
 /* Site is intentionally light/white in all environments (gallery-standard look),

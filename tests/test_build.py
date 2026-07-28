@@ -279,5 +279,14 @@ class TestPersonEntity(unittest.TestCase):
         self.assertNotIn("nationality", build.person_ld())
 
 
+class TestBodyClass(unittest.TestCase):
+    def test_base_ctx_defaults_to_inner(self):
+        self.assertEqual(build.base_ctx("", "", "t")["body_class"], "page-inner")
+
+    def test_base_ctx_accepts_override(self):
+        ctx = build.base_ctx("", "", "t", body_class="page-home")
+        self.assertEqual(ctx["body_class"], "page-home")
+
+
 if __name__ == "__main__":
     unittest.main()

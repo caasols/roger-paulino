@@ -249,7 +249,7 @@ def load_exhibitions():
 
 
 def base_ctx(root, path, page_title, description="", og_image=None,
-             og_type="website", jsonld=""):
+             og_type="website", jsonld="", body_class="page-inner"):
     canonical = abs_url(path)
     ctx = {
         "root": root,
@@ -265,6 +265,7 @@ def base_ctx(root, path, page_title, description="", og_image=None,
         "site_instagram": SITE["instagram"],
         "site_url": SITE_URL,
         "site_year": YEAR,
+        "body_class": body_class,
     }
     for key, value in SITE.get("ui", {}).items():
         ctx[f"ui_{key}"] = value
@@ -373,7 +374,7 @@ def build_home(shows):
     home = load_json(CONTENT / "home.json")
     ctx = base_ctx("", "", f"{SITE['name']}, Visual Artist (Printmaking and Painting)",
                    SITE.get("metaDescription", ""),
-                   jsonld=jsonld_script(person_ld()))
+                   jsonld=jsonld_script(person_ld()), body_class="page-home")
     ctx["intro"] = home.get("intro", [])
     ctx["feed"] = [feed_block_ctx(s) for s in shows]
     return write("index.html", render_page("home.html", ctx))
