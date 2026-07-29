@@ -147,7 +147,7 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
   hyphens: auto;
   -webkit-hyphens: auto;
 }
-.home-intro__text p { margin: 0 0 1.6rem; }
+.home-intro__text p { margin: 0 0 1.6rem; text-indent: 3.5em; }
 .home-intro__text p:last-child { margin-bottom: 0; }
 .home-intro__contact { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.75rem; }
 .home-intro__contact a { display: inline-flex; color: var(--soft); transition: color 0.15s ease; }
