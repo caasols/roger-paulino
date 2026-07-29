@@ -81,9 +81,9 @@ a { color: inherit; }
   text-align: center;
   /* gap between the stacked "ROGER" / "PAULINO" lines (multiplied by scaleY) */
   line-height: 1.05;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.17em;
   /* compensate the trailing letter-spacing so the glyphs stay optically centered */
-  text-indent: 0.2em;
+  text-indent: 0.17em;
   text-decoration: none;
   color: var(--ink);
   /* Besley SemiBold, stacked "ROGER / PAULINO" (line break in base.html), scaled
