@@ -54,6 +54,10 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 figure { margin: 0; }
 a { color: inherit; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
 
 /* --- header / nav --- */
 .site-header {
@@ -145,7 +149,7 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 /* Portrait height tracks the text column; the image is absolutely positioned so
    the two paragraphs define the row height, and it scales to fit (width auto). */
 .home-portrait { position: relative; margin: 0; }
-.home-portrait img { position: absolute; top: 0; bottom: 0; right: 0; height: 100%; width: auto; display: block; }
+.home-portrait img { position: absolute; top: 0; bottom: 0; right: 0; height: 100%; width: auto; display: block; object-fit: contain; object-position: top right; }
 .feed {
   display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 6rem);
   max-width: 1040px; margin: 0 auto; padding: 0;
@@ -242,7 +246,9 @@ main { padding: var(--pad); max-width: var(--maxw); margin: 0 auto; width: 100%;
 .cv-footer__legal { grid-column: 1 / -1; margin: 2rem 0 0; color: var(--soft); text-align: center; line-height: 1.7; }
 .cv-footer__legal a { color: var(--soft); text-decoration: underline; }
 .cv-footer__legal a:hover { color: var(--ink); }
-.cv-footer__credit { opacity: 0.5; }
+/* Lighter than the CV text but still WCAG-AA on white (opacity:0.5 failed at ~2.3:1). */
+.cv-footer__credit { color: #6d6d6d; }
+.cv-footer__credit a { color: inherit; }
 
 /* Exhibitions list */
 .index-list { list-style: none; padding: 0 var(--pad); }

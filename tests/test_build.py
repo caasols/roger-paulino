@@ -378,5 +378,69 @@ class TestMediaFallbacks(unittest.TestCase):
         self.assertTrue(media[0].get("hero"))          # first discovered image is the hero
 
 
+class TestAuditRegressions(unittest.TestCase):
+    def test_feed_excerpt_falls_back_to_curator_text(self):
+        show = {"statement": [], "curatorText": {"paragraphs": ["Curator opening. More."]}}
+        self.assertEqual(build.feed_excerpt(show), "Curator opening.")
+
+    def test_feed_excerpt_empty_when_no_statement_or_curator(self):
+        self.assertEqual(build.feed_excerpt({"statement": [], "curatorText": {"paragraphs": []}}), "")
+
+    def test_show_description_unknown_type_is_grammatical(self):
+        self.assertEqual(build.show_description({"title": "X"}), "X, an exhibition.")
+        self.assertEqual(build.show_description({"title": "X", "type": "nope"}), "X, an exhibition.")
+        self.assertEqual(build.show_description({"title": "X", "type": "solo"}), "X, a solo exhibition.")
+
+    def test_engine_loop_item_inherits_missing_page_key(self):
+        # documents the engine behavior the work-title isolation fix guards against
+        out = build.render("<!-- LOOP:xs -->[{{ title }}]<!-- ENDLOOP:xs -->",
+                           {"title": "SHOW", "xs": [{"medium": "Oil"}]})
+        self.assertEqual(out, "[SHOW]")
+
+    def test_build_show_isolates_titleless_work(self):
+        import contextlib
+        import io
+        import shutil
+        import tempfile
+        repo = Path(build.__file__).resolve().parent
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        shutil.copytree(repo / "templates", tmp / "templates")
+        saved = (build.ROOT, build.TEMPLATES)
+        build.ROOT, build.TEMPLATES = tmp, tmp / "templates"
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                build.build_show({"slug": "t", "title": "MY SHOW", "type": "solo",
+                                  "works": [{"medium": "Oil on paper"}]})
+        finally:
+            build.ROOT, build.TEMPLATES = saved
+        html = (tmp / "exhibitions" / "t" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<span class="work__title"></span>', html)   # blank, not inherited
+        self.assertNotIn('class="work__title">MY SHOW', html)
+
+    def test_footer_cv_buckets_all_current_exhibitions(self):
+        # a future typo in a typeLabel must not silently drop an entry from the footer
+        cv = build.footer_cv()
+        bucketed = len(cv["soloShows"]) + len(cv["groupShows"])
+        entries = build.ABOUT.get("selectedExhibitions", [])
+        recognized = sum(1 for e in entries if e.get("typeLabel") in ("Solo", "Duo", "Group"))
+        self.assertEqual(bucketed, recognized)
+        self.assertEqual(recognized, len(entries))
+
+    def test_person_ld_omits_absent_optional_fields(self):
+        # exercise the "if p.get(...)" false branches with a minimal person dict
+        saved = build.SITE
+        build.SITE = {"name": "N", "role": "Visual artist", "instagram": "https://ig",
+                      "metaDescription": "d", "person": {}}
+        try:
+            obj = build.person_ld()
+        finally:
+            build.SITE = saved
+        self.assertEqual(obj["@type"], "Person")
+        for k in ("birthDate", "birthPlace", "homeLocation", "knowsAbout", "alumniOf", "award"):
+            self.assertNotIn(k, obj)
+        self.assertEqual(obj["sameAs"], ["https://ig"])
+
+
 if __name__ == "__main__":
     unittest.main()

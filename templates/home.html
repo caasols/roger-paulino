@@ -1,3 +1,4 @@
+    <h1 class="visually-hidden">{{ site_name }}</h1>
     <section class="home-intro">
       <div class="home-intro__text">
         <!-- LOOP:intro --><p>{{ value }}</p><!-- ENDLOOP:intro -->
@@ -20,7 +21,7 @@
     <section class="feed">
       <!-- LOOP:feed -->
       <article class="feed-block">
-        <a class="feed-block__media frame" href="{{root}}{{ url }}">
+        <a class="feed-block__media frame" href="{{root}}{{ url }}" aria-label="{{ title }}">
           <!-- IF:hasImage --><img src="{{root}}{{ heroSrc }}" alt="{{ heroAlt }}" loading="lazy"><!-- ENDIF:hasImage -->
           <!-- IF:noImage --><span class="dotgrid" aria-hidden="true"></span><!-- ENDIF:noImage -->
         </a>

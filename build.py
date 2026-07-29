@@ -143,6 +143,9 @@ def feed_excerpt(show, limit=180):
         return show["feedExcerpt"]
     paras = show.get("statement") or []
     if not paras:
+        # fall back to the curator text when there is no artist statement
+        paras = (show.get("curatorText") or {}).get("paragraphs") or []
+    if not paras:
         return ""
     first = " ".join(paras[0].split())
     head, dot, _ = first.partition(".")
@@ -237,7 +240,8 @@ def exhibition_ld(show, image):
 
 def show_description(show):
     type_label = TYPE_LABELS.get(show.get("type", ""), "exhibition").lower()
-    tail = [f"a {type_label}"]
+    article = "an" if type_label[:1] in "aeiou" else "a"
+    tail = [f"{article} {type_label}"]
     place = place_label(show)
     if place:
         tail.append(f"at {place}")
@@ -434,7 +438,9 @@ def build_show(show):
         "statement": show.get("statement", []),
         "gallery": gallery,
         "videos": videos,
-        "works": show.get("works", []),
+        # ensure each work carries its own title key so a work without one renders
+        # blank instead of inheriting the page-level exhibition title in the loop
+        "works": [dict({"title": ""}, **w) for w in show.get("works", [])],
         "curatorBy": curator.get("by", ""),
         "curatorParagraphs": curator.get("paragraphs", []),
         "links": show.get("links", []),
