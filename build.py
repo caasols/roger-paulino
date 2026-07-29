@@ -14,6 +14,7 @@ the site works from file:// locally and under any GitHub Pages base path.
 `content` and `jsonld` are raw (not HTML-escaped) so page bodies and JSON-LD
 script blocks pass through verbatim.
 """
+import hashlib
 import html
 import json
 import re
@@ -260,11 +261,22 @@ def load_exhibitions():
     return shows
 
 
+def asset_version(rel):
+    """Short content hash of a static asset, appended to its URL as `?v=` so a
+    changed file gets a new URL and browsers/CDNs fetch it fresh (cache-busting)."""
+    try:
+        return hashlib.sha1((ROOT / rel).read_bytes()).hexdigest()[:8]
+    except OSError:
+        return ""
+
+
 def base_ctx(root, path, page_title, description="", og_image=None,
              og_type="website", jsonld="", body_class="page-inner"):
     canonical = abs_url(path)
     ctx = {
         "root": root,
+        "css_ver": asset_version("css/site.css"),
+        "js_ver": asset_version("js/site.js"),
         "canonical": canonical,
         "og_url": canonical,
         "og_type": og_type,
