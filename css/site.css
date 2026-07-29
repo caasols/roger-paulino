@@ -4,7 +4,13 @@
 
 @font-face {
   font-family: "RPDisplay";
-  src: url("../assets/fonts/archivo-narrow-600.woff2") format("woff2");
+  src: url("../assets/fonts/besley-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RPDisplay";
+  src: url("../assets/fonts/besley-600.woff2") format("woff2");
   font-weight: 600;
   font-display: swap;
 }
@@ -77,16 +83,11 @@ a { color: inherit; }
   letter-spacing: 0.05em;
   text-decoration: none;
   color: var(--ink);
-  font-size: clamp(3rem, 19vw, 13rem);
-  /* Archivo Narrow SemiBold, scaled taller for a more condensed masthead.
-     Extra vertical margin reserves room since the transform overflows the box. */
-  transform: scaleY(1.35);
-  transform-origin: center;
-  /* Top margin gives space from the nav. Bottom margin reserves the scaleY(1.35)
-     visual overflow (~0.30 * font-size) so the masthead's visible bottom lands at
-     the layout box edge, and the gap below is then governed cleanly by the intro
-     margin, matching the intro-to-image gap. */
-  margin: clamp(4rem, 8vw, 6.5rem) 0 clamp(0.9rem, 5.7vw, 3.9rem);
+  /* Besley SemiBold at natural proportions (no scaleY: Besley is a normal-width
+     slab serif, unlike the condensed Archivo Narrow it replaced). Sized to fill
+     the lockup on desktop and wrap cleanly on narrow screens. */
+  font-size: clamp(2.5rem, 12vw, 8.5rem);
+  margin: clamp(2.5rem, 6vw, 5rem) 0 clamp(1.5rem, 5vw, 3.5rem);
 }
 /* On the home page the intro's own top margin sets the gap under the masthead,
    so drop main's top padding (it would otherwise add an extra, unmatched gap). */
